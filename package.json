@@ -1,0 +1,20 @@
+{
+  "name": "chrome-open-page-blocker",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Blocks pages from opening if they are on the blacklist.",
+  "keywords": [
+    "chrome",
+    "extension"
+  ],
+  "author": "alexamy",
+  "license": "MIT",
+  "homepage": "https://github.com/alexamy/chrome-open-page-blocker#readme",
+  "bugs": {
+    "url": "https://github.com/alexamy/chrome-open-page-blocker/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexamy/chrome-open-page-blocker.git"
+  }
+}
