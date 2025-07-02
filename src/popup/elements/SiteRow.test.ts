@@ -18,7 +18,16 @@ function setup() {
     name: /−/,
   }) as HTMLButtonElement;
 
-  return { root, text, checkbox, remove };
+  const onChange = vi.fn();
+  root.addEventListener('site-row:changed', onChange);
+
+  const onCheck = vi.fn();
+  root.addEventListener('site-row:checked', onCheck);
+
+  const onRemove = vi.fn();
+  root.addEventListener('site-row:removed', onRemove);
+
+  return { root, text, checkbox, remove, onCheck, onChange, onRemove };
 }
 
 it('renders', () => {
@@ -60,52 +69,40 @@ it('has value of its text content', () => {
 
 it('emits checked event', async () => {
   const element = setup();
-  const fn = vi.fn();
 
-  element.root.addEventListener('site-row:checked', fn);
   await userEvent.click(element.checkbox);
 
-  expect(fn).toHaveBeenCalledExactlyOnceWith(
+  expect(element.onCheck).toHaveBeenCalledExactlyOnceWith(
     expect.objectContaining({
       detail: false,
     })
   );
-
-  element.root.removeEventListener('site-row:checked', fn);
 });
 
 it('emits changed event', async () => {
   const element = setup();
-  const fn = vi.fn();
 
-  element.root.addEventListener('site-row:changed', fn);
   await userEvent.type(element.text, 'hi');
 
-  expect(fn).toHaveBeenNthCalledWith(
+  expect(element.onChange).toHaveBeenNthCalledWith(
     1,
     expect.objectContaining({
       detail: 'h',
     })
   );
 
-  expect(fn).toHaveBeenNthCalledWith(
+  expect(element.onChange).toHaveBeenNthCalledWith(
     2,
     expect.objectContaining({
       detail: 'hi',
     })
   );
-
-  element.root.removeEventListener('site-row:changed', fn);
 });
 
 it('emits removed event', async () => {
   const element = setup();
-  const fn = vi.fn();
 
-  element.root.addEventListener('site-row:removed', fn);
   await userEvent.click(element.remove);
 
-  expect(fn).toHaveBeenCalledOnce();
-
-  element.root.removeEventListener('site-row:removed', fn);
+  expect(element.onRemove).toHaveBeenCalledOnce();
 });
