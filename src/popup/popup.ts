@@ -1,6 +1,7 @@
 export class SiteRow extends HTMLElement {
   elements: {
-    name: HTMLInputElement;
+    checkbox: HTMLInputElement;
+    text: HTMLInputElement;
     add: HTMLButtonElement;
     remove: HTMLButtonElement;
   };
@@ -26,7 +27,7 @@ export class SiteRow extends HTMLElement {
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
 
-    const name = document.createElement('input');
+    const text = document.createElement('input');
 
     const add = document.createElement('button');
     add.innerText = '+';
@@ -35,14 +36,14 @@ export class SiteRow extends HTMLElement {
     remove.innerText = '−';
 
     container.appendChild(checkbox);
-    container.appendChild(name);
+    container.appendChild(text);
     container.appendChild(add);
     container.appendChild(remove);
 
     shadowRoot.appendChild(style);
     shadowRoot.appendChild(container);
 
-    return { name, add, remove };
+    return { checkbox, text, add, remove };
   }
 }
 
