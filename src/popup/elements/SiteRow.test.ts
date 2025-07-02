@@ -1,4 +1,4 @@
-import { afterEach, expect, it } from 'vitest';
+import { afterEach, expect, it, vi } from 'vitest';
 import { screen } from 'shadow-dom-testing-library';
 import { SiteRow } from './SiteRow';
 import './SiteRow';
@@ -57,6 +57,22 @@ it('has value of its text content', () => {
   expect(root.value).toBe('hello');
 });
 
-it('emits checked event', () => {});
+it('emits checked event', () => {
+  const element = setup();
+  const fn = vi.fn();
+
+  element.root.addEventListener('site-row:checked', fn);
+  element.checkbox.click();
+
+  expect(fn).toHaveBeenCalledExactlyOnceWith(
+    expect.objectContaining({
+      detail: false,
+    })
+  );
+
+  element.root.removeEventListener('site-row:checked', fn);
+});
+
 it('emits changed event', () => {});
+
 it('emits removed event', () => {});
