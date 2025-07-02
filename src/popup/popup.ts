@@ -1,5 +1,3 @@
-console.log('This is a popup script!');
-
 class SiteRow extends HTMLElement {
   elements: {
     name: HTMLInputElement;
