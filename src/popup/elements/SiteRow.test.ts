@@ -98,4 +98,14 @@ it('emits changed event', async () => {
   element.root.removeEventListener('site-row:changed', fn);
 });
 
-it('emits removed event', () => {});
+it('emits removed event', async () => {
+  const element = setup();
+  const fn = vi.fn();
+
+  element.root.addEventListener('site-row:removed', fn);
+  await userEvent.click(element.remove);
+
+  expect(fn).toHaveBeenCalledOnce();
+
+  element.root.removeEventListener('site-row:removed', fn);
+});
