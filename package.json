@@ -19,7 +19,7 @@
     "url": "git+https://github.com/alexamy/chrome-open-page-blocker.git"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --build --clean",
     "watch": "tsc --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
