@@ -49,11 +49,11 @@ export class SiteRows extends HTMLElement {
 
   //#region events
   private setupEvents() {
-    this.elements.add.addEventListener('click', this.addNewEntry);
+    this.elements.add.addEventListener('click', this.onAddNewEntry);
   }
 
   private removeEvents() {
-    this.elements.add.removeEventListener('click', this.addNewEntry);
+    this.elements.add.removeEventListener('click', this.onAddNewEntry);
   }
 
   private emitEvent<Name extends keyof SiteRowsEvent>(
@@ -71,7 +71,7 @@ export class SiteRows extends HTMLElement {
     this.emitEvent('site-rows:data', sites);
   }
 
-  private addNewEntry = () => {
+  private onAddNewEntry = () => {
     const row = document.createElement('site-row');
     this.appendChild(row);
   };
