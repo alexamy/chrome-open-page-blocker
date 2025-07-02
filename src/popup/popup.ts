@@ -6,10 +6,25 @@ class SiteRow extends HTMLElement {
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
-    const root = document.createElement('div');
-    root.append('Hello!');
+    const style = document.createElement('style');
+    style.textContent = ``;
 
-    shadowRoot.appendChild(root);
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+
+    const name = document.createElement('input');
+
+    const add = document.createElement('button');
+    add.innerText = '+';
+
+    const remove = document.createElement('button');
+    remove.innerText = '−';
+
+    shadowRoot.appendChild(style);
+    shadowRoot.appendChild(checkbox);
+    shadowRoot.appendChild(name);
+    shadowRoot.appendChild(add);
+    shadowRoot.appendChild(remove);
   }
 }
 
