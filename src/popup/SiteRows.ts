@@ -1,3 +1,5 @@
+import { SiteRow } from './SiteRow';
+
 export interface SiteRowsEvent {
   'site-rows:data': string[];
 }
@@ -49,11 +51,11 @@ export class SiteRows extends HTMLElement {
 
   //#region events
   private setupEvents() {
-    this.elements.add.addEventListener('click', this.onAddNewEntry);
+    this.elements.add.addEventListener('click', this.onAddEntry);
   }
 
   private removeEvents() {
-    this.elements.add.removeEventListener('click', this.onAddNewEntry);
+    this.elements.add.removeEventListener('click', this.onAddEntry);
   }
 
   private emitEvent<Name extends keyof SiteRowsEvent>(
@@ -71,9 +73,23 @@ export class SiteRows extends HTMLElement {
     this.emitEvent('site-rows:data', sites);
   };
 
-  private onAddNewEntry = () => {
-    const row = document.createElement('site-row');
+  private onAddEntry = () => {
+    const row = document.createElement('site-row') as SiteRow;
     this.appendChild(row);
+    this.onNewEntry(row);
+    this.onChange();
+  };
+
+  private onRemoveEntry = (event: Event) => {
+    const row = event.currentTarget as SiteRow;
+    this.removeChild(row);
+    this.onChange();
+  };
+
+  private onNewEntry = (entry: SiteRow) => {
+    entry.addEventListener('site-row:checked', this.onChange);
+    entry.addEventListener('site-row:changed', this.onChange);
+    entry.addEventListener('site-row:removed', this.onRemoveEntry);
   };
 }
 
