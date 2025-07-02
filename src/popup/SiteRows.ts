@@ -21,8 +21,8 @@ export class SiteRows extends HTMLElement {
 
   connectedCallback() {
     this.elements = this.render();
-    this.setupChildren();
     this.setupEvents();
+    this.emitData();
   }
 
   private render() {
@@ -42,10 +42,9 @@ export class SiteRows extends HTMLElement {
     return { add };
   }
 
-  private setupChildren() {}
-
   private setupEvents() {
-    this.elements.add.addEventListener('click', this.addNewEntry.bind(this));
+    const addNewEntry = this.addNewEntry.bind(this);
+    this.elements.add.addEventListener('click', addNewEntry);
   }
 
   private addNewEntry() {
@@ -61,7 +60,7 @@ export class SiteRows extends HTMLElement {
     this.dispatchEvent(event);
   }
 
-  emitSites() {
+  private emitData() {
     const sites: string[] = [];
 
     this.emitEvent('site-rows:data', sites);
