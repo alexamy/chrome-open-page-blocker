@@ -1,5 +1,6 @@
 import { afterEach, expect, it, vi } from 'vitest';
 import { screen } from 'shadow-dom-testing-library';
+import userEvent from '@testing-library/user-event';
 import { SiteRow } from './SiteRow';
 import './SiteRow';
 
@@ -57,12 +58,12 @@ it('has value of its text content', () => {
   expect(root.value).toBe('hello');
 });
 
-it('emits checked event', () => {
+it('emits checked event', async () => {
   const element = setup();
   const fn = vi.fn();
 
   element.root.addEventListener('site-row:checked', fn);
-  element.checkbox.click();
+  await userEvent.click(element.checkbox);
 
   expect(fn).toHaveBeenCalledExactlyOnceWith(
     expect.objectContaining({
@@ -73,6 +74,28 @@ it('emits checked event', () => {
   element.root.removeEventListener('site-row:checked', fn);
 });
 
-it('emits changed event', () => {});
+it('emits changed event', async () => {
+  const element = setup();
+  const fn = vi.fn();
+
+  element.root.addEventListener('site-row:changed', fn);
+  await userEvent.type(element.text, 'hi');
+
+  expect(fn).toHaveBeenNthCalledWith(
+    1,
+    expect.objectContaining({
+      detail: 'h',
+    })
+  );
+
+  expect(fn).toHaveBeenNthCalledWith(
+    2,
+    expect.objectContaining({
+      detail: 'hi',
+    })
+  );
+
+  element.root.removeEventListener('site-row:changed', fn);
+});
 
 it('emits removed event', () => {});
