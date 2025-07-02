@@ -1,6 +1,6 @@
-import './SiteRow';
-import './SiteRows';
-import { SiteRows } from './SiteRows';
+import './elements/SiteRow';
+import './elements/SiteRows';
+import { SiteRows } from './elements/SiteRows';
 
 const root = document.querySelector('site-rows') as SiteRows;
 
