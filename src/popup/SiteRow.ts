@@ -1,7 +1,7 @@
 export interface SiteRowEvent {
-  'site-row:remove': null;
   'site-row:checked': boolean;
   'site-row:changed': string;
+  'site-row:removed': null;
 }
 
 export class SiteRow extends HTMLElement {
@@ -32,6 +32,10 @@ export class SiteRow extends HTMLElement {
     this.setupEvents();
   }
 
+  disconnectedCallback() {
+    this.removeEvents();
+  }
+
   private render() {
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
@@ -60,17 +64,16 @@ export class SiteRow extends HTMLElement {
   //#region events
   private setupEvents() {
     const { checkbox, text, remove } = this.elements;
+    checkbox.addEventListener('input', this.onCheckbox);
+    text.addEventListener('input', this.onText);
+    remove.addEventListener('click', this.onRemove);
+  }
 
-    checkbox.addEventListener('input', () =>
-      this.emitEvent('site-row:checked', checkbox.checked)
-    );
-
-    text.addEventListener('input', () =>
-      this.emitEvent('site-row:changed', text.value)
-    );
-    remove.addEventListener('click', () =>
-      this.emitEvent('site-row:remove', null)
-    );
+  private removeEvents() {
+    const { checkbox, text, remove } = this.elements;
+    checkbox.removeEventListener('input', this.onCheckbox);
+    text.removeEventListener('input', this.onText);
+    remove.removeEventListener('click', this.onRemove);
   }
 
   private emitEvent<Name extends keyof SiteRowEvent>(
@@ -80,6 +83,22 @@ export class SiteRow extends HTMLElement {
     const event = new CustomEvent(name, { detail });
     this.dispatchEvent(event);
   }
+
+  //#region callbacks
+  onCheckbox = () => {
+    const { checkbox } = this.elements;
+    this.emitEvent('site-row:checked', checkbox.checked);
+  };
+
+  onText = () => {
+    const { text } = this.elements;
+    this.emitEvent('site-row:changed', text.value);
+  };
+
+  onRemove = () => {
+    const { remove } = this.elements;
+    this.emitEvent('site-row:removed', null);
+  };
 
   //#region set get
   get checked() {
