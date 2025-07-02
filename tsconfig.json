@@ -3,6 +3,7 @@
   "compilerOptions": {
     "target": "esnext",
     "lib": ["esnext", "DOM", "DOM.Iterable"],
+    "types": ["chrome-types"],
 
     "module": "none",
     "outDir": "./dist",

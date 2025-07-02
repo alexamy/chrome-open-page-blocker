@@ -12,5 +12,6 @@
       "matches": ["<all_urls>"],
       "js": ["dist/content/content.js"]
     }
-  ]
+  ],
+  "permissions": ["activeTab", "tabs"]
 }
