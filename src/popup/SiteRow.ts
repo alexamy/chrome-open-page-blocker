@@ -1,7 +1,7 @@
 export interface SiteRowEvent {
-  remove: null;
-  checked: boolean;
-  changed: string;
+  'site-row:remove': null;
+  'site-row:checked': boolean;
+  'site-row:changed': string;
 }
 
 export class SiteRow extends HTMLElement {
@@ -60,18 +60,22 @@ export class SiteRow extends HTMLElement {
     const { checkbox, text, remove } = this.elements;
 
     checkbox.addEventListener('input', () =>
-      this.emitEvent('checked', checkbox.checked)
+      this.emitEvent('site-row:checked', checkbox.checked)
     );
 
-    text.addEventListener('input', () => this.emitEvent('changed', text.value));
-    remove.addEventListener('click', () => this.emitEvent('remove', null));
+    text.addEventListener('input', () =>
+      this.emitEvent('site-row:changed', text.value)
+    );
+    remove.addEventListener('click', () =>
+      this.emitEvent('site-row:remove', null)
+    );
   }
 
   private emitEvent<Name extends keyof SiteRowEvent>(
     name: Name,
     detail: SiteRowEvent[Name]
   ) {
-    const event = new CustomEvent(`site-row:${name}`, { detail });
+    const event = new CustomEvent(name, { detail });
     this.dispatchEvent(event);
   }
 
