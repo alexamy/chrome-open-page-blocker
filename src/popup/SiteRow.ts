@@ -69,6 +69,14 @@ export class SiteRow extends HTMLElement {
     const event = new CustomEvent(`site-row:${name}`, { detail });
     this.dispatchEvent(event);
   }
+
+  get value() {
+    return this.elements.text.value;
+  }
+
+  set value(text: string) {
+    this.elements.text.value = text;
+  }
 }
 
 window.customElements.define('site-row', SiteRow);
