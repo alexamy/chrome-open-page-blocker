@@ -31,7 +31,7 @@ export class SiteRow extends HTMLElement {
     this.setupEvents();
   }
 
-  render() {
+  private render() {
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
     const style = document.createElement('style');
@@ -56,7 +56,7 @@ export class SiteRow extends HTMLElement {
     return { checkbox, text, remove };
   }
 
-  setupEvents() {
+  private setupEvents() {
     const { checkbox, text, remove } = this.elements;
 
     checkbox.addEventListener('input', () =>
@@ -77,6 +77,10 @@ export class SiteRow extends HTMLElement {
   ) {
     const event = new CustomEvent(name, { detail });
     this.dispatchEvent(event);
+  }
+
+  get checked() {
+    return this.elements.checkbox.checked;
   }
 
   get value() {
