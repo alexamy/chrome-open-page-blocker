@@ -18,6 +18,7 @@ export class SiteRows extends HTMLElement {
   connectedCallback() {
     this.elements = this.render();
     this.setupChildren();
+    this.setupEvents();
   }
 
   render() {
@@ -38,6 +39,15 @@ export class SiteRows extends HTMLElement {
   }
 
   setupChildren() {}
+
+  setupEvents() {
+    this.elements.add.addEventListener('click', this.addNewEntry.bind(this));
+  }
+
+  private addNewEntry() {
+    const row = document.createElement('site-row');
+    this.appendChild(row);
+  }
 }
 
 window.customElements.define('site-rows', SiteRows);
