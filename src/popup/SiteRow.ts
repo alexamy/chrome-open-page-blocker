@@ -10,6 +10,10 @@ export class SiteRow extends HTMLElement {
       display: flex;
       gap: 5px;
     }
+
+    .text {
+      width: 100%;
+    }
   `;
 
   elements!: {
@@ -38,6 +42,7 @@ export class SiteRow extends HTMLElement {
     checkbox.checked = true;
 
     const text = document.createElement('input');
+    text.classList.add('text');
     text.value = this.textContent ?? '';
 
     const remove = document.createElement('button');
