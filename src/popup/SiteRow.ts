@@ -24,13 +24,11 @@ export class SiteRow extends HTMLElement {
 
     const style = document.createElement('style');
     style.textContent = `
-      .container {
+      :host {
         display: flex;
+        gap: 5px;
       }
     `;
-
-    const container = document.createElement('div');
-    container.classList.add('container');
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
@@ -43,13 +41,11 @@ export class SiteRow extends HTMLElement {
     const remove = document.createElement('button');
     remove.innerText = '−';
 
-    container.appendChild(checkbox);
-    container.appendChild(text);
-    container.appendChild(add);
-    container.appendChild(remove);
-
     shadowRoot.appendChild(style);
-    shadowRoot.appendChild(container);
+    shadowRoot.appendChild(checkbox);
+    shadowRoot.appendChild(text);
+    shadowRoot.appendChild(add);
+    shadowRoot.appendChild(remove);
 
     return { checkbox, text, add, remove };
   }
