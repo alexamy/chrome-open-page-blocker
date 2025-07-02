@@ -5,7 +5,8 @@
     "lib": ["esnext", "DOM", "DOM.Iterable"],
     "types": ["chrome-types"],
 
-    "module": "none",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "outDir": "./dist",
 
     "forceConsistentCasingInFileNames": true,
