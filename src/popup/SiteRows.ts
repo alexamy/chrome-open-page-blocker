@@ -51,11 +51,17 @@ export class SiteRows extends HTMLElement {
 
   //#region events
   private setupEvents() {
-    this.elements.add.addEventListener('click', this.onAddEntry);
+    this.elements.add.addEventListener('click', this.onAddRow);
+
+    const rows = this.querySelectorAll('site-row');
+    rows.forEach((row) => this.connectRow(row as SiteRow));
   }
 
   private removeEvents() {
-    this.elements.add.removeEventListener('click', this.onAddEntry);
+    this.elements.add.removeEventListener('click', this.onAddRow);
+
+    const rows = this.querySelectorAll('site-row');
+    rows.forEach((row) => this.disconnectRow(row as SiteRow));
   }
 
   private emitEvent<Name extends keyof SiteRowsEvent>(
@@ -73,23 +79,30 @@ export class SiteRows extends HTMLElement {
     this.emitEvent('site-rows:data', sites);
   };
 
-  private onAddEntry = () => {
+  private onAddRow = () => {
     const row = document.createElement('site-row') as SiteRow;
     this.appendChild(row);
-    this.onNewEntry(row);
+    this.connectRow(row);
     this.onChange();
   };
 
-  private onRemoveEntry = (event: Event) => {
+  private onRemoveRow = (event: Event) => {
     const row = event.currentTarget as SiteRow;
+    this.disconnectRow(row);
     this.removeChild(row);
     this.onChange();
   };
 
-  private onNewEntry = (entry: SiteRow) => {
+  private connectRow = (entry: SiteRow) => {
     entry.addEventListener('site-row:checked', this.onChange);
     entry.addEventListener('site-row:changed', this.onChange);
-    entry.addEventListener('site-row:removed', this.onRemoveEntry);
+    entry.addEventListener('site-row:removed', this.onRemoveRow);
+  };
+
+  private disconnectRow = (entry: SiteRow) => {
+    entry.addEventListener('site-row:checked', this.onChange);
+    entry.addEventListener('site-row:changed', this.onChange);
+    entry.addEventListener('site-row:removed', this.onRemoveRow);
   };
 }
 
