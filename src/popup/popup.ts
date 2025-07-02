@@ -1,3 +1,1 @@
-import { say } from './test.js';
-
-say();
+console.log('This is a popup script!');
