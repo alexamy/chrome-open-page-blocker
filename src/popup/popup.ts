@@ -1,7 +1,7 @@
 import './SiteRow';
 import './SiteRows';
+import { SiteRows } from './SiteRows';
 
-const root = document.querySelector('site-rows');
+const root = document.querySelector('site-rows') as SiteRows;
 
-// @ts-expect-error
 root?.addEventListener('site-rows:data', (e) => console.log(e.detail));

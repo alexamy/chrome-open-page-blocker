@@ -1,7 +1,9 @@
 import { SiteRow } from './SiteRow';
 
-export interface SiteRowsEvent {
-  'site-rows:data': string[];
+declare global {
+  interface HTMLElementEventMap {
+    'site-rows:data': CustomEvent<string[]>;
+  }
 }
 
 export class SiteRows extends HTMLElement {
@@ -64,14 +66,6 @@ export class SiteRows extends HTMLElement {
     rows.forEach((row) => this.disconnectRow(row as SiteRow));
   }
 
-  private emitEvent<Name extends keyof SiteRowsEvent>(
-    name: Name,
-    detail: SiteRowsEvent[Name]
-  ) {
-    const event = new CustomEvent(name, { detail });
-    this.dispatchEvent(event);
-  }
-
   //#region callbacks
   private onChange = () => {
     const rows = this.querySelectorAll('site-row');
@@ -79,7 +73,8 @@ export class SiteRows extends HTMLElement {
       .filter((row) => row.checked && row.value)
       .map((row) => row.value);
 
-    this.emitEvent('site-rows:data', sites);
+    const event = new CustomEvent('site-rows:data', { detail: sites });
+    this.dispatchEvent(event);
   };
 
   private onAddRow = () => {
