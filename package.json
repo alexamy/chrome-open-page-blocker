@@ -16,5 +16,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alexamy/chrome-open-page-blocker.git"
+  },
+  "devDependencies": {
+    "chrome-types": "^0.1.358",
+    "typescript": "^5.8.3"
   }
 }
