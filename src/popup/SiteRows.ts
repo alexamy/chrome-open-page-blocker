@@ -15,6 +15,7 @@ export class SiteRows extends HTMLElement {
     add: HTMLButtonElement;
   };
 
+  //#region lifecycle
   constructor() {
     super();
   }
@@ -42,6 +43,7 @@ export class SiteRows extends HTMLElement {
     return { add };
   }
 
+  //#region events
   private setupEvents() {
     const addNewEntry = this.addNewEntry.bind(this);
     this.elements.add.addEventListener('click', addNewEntry);

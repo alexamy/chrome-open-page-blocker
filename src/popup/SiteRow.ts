@@ -22,6 +22,7 @@ export class SiteRow extends HTMLElement {
     remove: HTMLButtonElement;
   };
 
+  //#region lifecycle
   constructor() {
     super();
   }
@@ -56,6 +57,7 @@ export class SiteRow extends HTMLElement {
     return { checkbox, text, remove };
   }
 
+  //#region events
   private setupEvents() {
     const { checkbox, text, remove } = this.elements;
 
@@ -79,6 +81,7 @@ export class SiteRow extends HTMLElement {
     this.dispatchEvent(event);
   }
 
+  //#region set get
   get checked() {
     return this.elements.checkbox.checked;
   }
