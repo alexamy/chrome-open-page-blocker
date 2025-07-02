@@ -3,15 +3,20 @@ export class SiteRows extends HTMLElement {
     :host {
       display: flex;
       flex-direction: column;
+      gap: 10px;
     }
   `;
+
+  elements!: {
+    add: HTMLButtonElement;
+  };
 
   constructor() {
     super();
   }
 
   connectedCallback() {
-    this.render();
+    this.elements = this.render();
     this.setupChildren();
   }
 
@@ -22,8 +27,14 @@ export class SiteRows extends HTMLElement {
 
     const slot = document.createElement('slot');
 
+    const add = document.createElement('button');
+    add.textContent = '+';
+
     shadowRoot.appendChild(style);
     shadowRoot.appendChild(slot);
+    shadowRoot.appendChild(add);
+
+    return { add };
   }
 
   setupChildren() {}
