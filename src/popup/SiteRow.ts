@@ -6,7 +6,7 @@ export interface SiteRowEvent {
 }
 
 export class SiteRow extends HTMLElement {
-  elements: {
+  elements!: {
     checkbox: HTMLInputElement;
     text: HTMLInputElement;
     add: HTMLButtonElement;
@@ -15,6 +15,9 @@ export class SiteRow extends HTMLElement {
 
   constructor() {
     super();
+  }
+
+  connectedCallback() {
     this.elements = this.render();
     this.setupEvents();
   }

@@ -1,7 +1,13 @@
 export class SiteRows extends HTMLElement {
   constructor() {
     super();
+  }
 
+  connectedCallback() {
+    this.render();
+  }
+
+  render() {
     const shadowRoot = this.attachShadow({ mode: 'open' });
     const style = document.createElement('style');
     style.textContent = `
@@ -16,8 +22,6 @@ export class SiteRows extends HTMLElement {
     shadowRoot.appendChild(style);
     shadowRoot.appendChild(slot);
   }
-
-  connectedCallback() {}
 }
 
 window.customElements.define('site-rows', SiteRows);
