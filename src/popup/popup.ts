@@ -1,9 +1,15 @@
 console.log('This is a popup script!');
 
 class SiteRow extends HTMLElement {
+  elements: {
+    name: HTMLInputElement;
+    add: HTMLButtonElement;
+    remove: HTMLButtonElement;
+  };
+
   constructor() {
     super();
-    this.render();
+    this.elements = this.render();
   }
 
   render() {
@@ -37,6 +43,8 @@ class SiteRow extends HTMLElement {
 
     shadowRoot.appendChild(style);
     shadowRoot.appendChild(container);
+
+    return { name, add, remove };
   }
 }
 
