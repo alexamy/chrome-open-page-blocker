@@ -79,8 +79,8 @@ export class SiteRows extends HTMLElement {
 
   private onAddRow = () => {
     const row = document.createElement('site-row') as SiteRow;
-    this.appendChild(row);
     this.connectRow(row);
+    this.appendChild(row);
     this.onChange();
   };
 

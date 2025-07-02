@@ -1,7 +1,9 @@
-export interface SiteRowEvent {
-  'site-row:checked': boolean;
-  'site-row:changed': string;
-  'site-row:removed': null;
+declare global {
+  interface HTMLElementEventMap {
+    'site-row:checked': CustomEvent<boolean>;
+    'site-row:changed': CustomEvent<string>;
+    'site-row:removed': CustomEvent<null>;
+  }
 }
 
 export class SiteRow extends HTMLElement {
@@ -76,28 +78,24 @@ export class SiteRow extends HTMLElement {
     remove.removeEventListener('click', this.onRemove);
   }
 
-  private emitEvent<Name extends keyof SiteRowEvent>(
-    name: Name,
-    detail: SiteRowEvent[Name]
-  ) {
-    const event = new CustomEvent(name, { detail });
-    this.dispatchEvent(event);
-  }
-
   //#region callbacks
   private onCheckbox = () => {
-    const { checkbox } = this.elements;
-    this.emitEvent('site-row:checked', checkbox.checked);
+    const event = new CustomEvent('site-row:checked', {
+      detail: this.elements.checkbox.checked,
+    });
+    this.dispatchEvent(event);
   };
 
   private onText = () => {
-    const { text } = this.elements;
-    this.emitEvent('site-row:changed', text.value);
+    const event = new CustomEvent('site-row:changed', {
+      detail: this.elements.text.value,
+    });
+    this.dispatchEvent(event);
   };
 
   private onRemove = () => {
-    const { remove } = this.elements;
-    this.emitEvent('site-row:removed', null);
+    const event = new CustomEvent('site-row:removed');
+    this.dispatchEvent(event);
   };
 
   //#region set get
