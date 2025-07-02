@@ -4,10 +4,7 @@
     "target": "esnext",
     "lib": ["esnext", "DOM", "DOM.Iterable"],
 
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "esModuleInterop": false,
-
+    "module": "none",
     "outDir": "./dist",
 
     "forceConsistentCasingInFileNames": true,
