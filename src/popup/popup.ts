@@ -7,7 +7,14 @@ class SiteRow extends HTMLElement {
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
     const style = document.createElement('style');
-    style.textContent = ``;
+    style.textContent = `
+      .container {
+        display: flex;
+      }
+    `;
+
+    const container = document.createElement('div');
+    container.classList.add('container');
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
@@ -20,11 +27,13 @@ class SiteRow extends HTMLElement {
     const remove = document.createElement('button');
     remove.innerText = '−';
 
+    container.appendChild(checkbox);
+    container.appendChild(name);
+    container.appendChild(add);
+    container.appendChild(remove);
+
     shadowRoot.appendChild(style);
-    shadowRoot.appendChild(checkbox);
-    shadowRoot.appendChild(name);
-    shadowRoot.appendChild(add);
-    shadowRoot.appendChild(remove);
+    shadowRoot.appendChild(container);
   }
 }
 
