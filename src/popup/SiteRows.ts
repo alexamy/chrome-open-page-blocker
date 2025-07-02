@@ -1,3 +1,7 @@
+export interface SiteRowsEvent {
+  'site-rows:data': string[];
+}
+
 export class SiteRows extends HTMLElement {
   stylesheet = `
     :host {
@@ -47,6 +51,20 @@ export class SiteRows extends HTMLElement {
   private addNewEntry() {
     const row = document.createElement('site-row');
     this.appendChild(row);
+  }
+
+  private emitEvent<Name extends keyof SiteRowsEvent>(
+    name: Name,
+    detail: SiteRowsEvent[Name]
+  ) {
+    const event = new CustomEvent(name, { detail });
+    this.dispatchEvent(event);
+  }
+
+  emitSites() {
+    const sites: string[] = [];
+
+    this.emitEvent('site-rows:data', sites);
   }
 }
 
