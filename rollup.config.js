@@ -8,4 +8,9 @@ export default {
     'src/content/content.ts',
     'src/popup/popup.ts',
   ],
+  output: {
+    dir: 'dist',
+    format: 'es',
+    sourcemap: true,
+  },
 };
