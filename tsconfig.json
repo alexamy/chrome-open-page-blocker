@@ -4,8 +4,9 @@
     "target": "esnext",
     "lib": ["esnext", "DOM", "DOM.Iterable"],
 
-    "module": "esnext",
-    "moduleResolution": "bundler",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "esModuleInterop": false,
 
     "outDir": "./dist",
 

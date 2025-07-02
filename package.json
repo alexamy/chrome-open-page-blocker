@@ -1,6 +1,7 @@
 {
   "name": "chrome-open-page-blocker",
   "private": true,
+  "type": "module",
   "version": "1.0.0",
   "description": "Blocks pages from opening if they are on the blacklist.",
   "keywords": [
