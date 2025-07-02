@@ -74,7 +74,10 @@ export class SiteRows extends HTMLElement {
 
   //#region callbacks
   private onChange = () => {
-    const sites: string[] = [];
+    const rows = this.querySelectorAll('site-row');
+    const sites = ([...rows] as SiteRow[])
+      .filter((row) => row.checked && row.value)
+      .map((row) => row.value);
 
     this.emitEvent('site-rows:data', sites);
   };
