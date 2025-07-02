@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "chrome-types": "^0.1.358",
+    "rollup": "^4.44.1",
     "typescript": "^5.8.3"
   }
 }
