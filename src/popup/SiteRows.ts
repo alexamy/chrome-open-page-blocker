@@ -21,7 +21,7 @@ export class SiteRows extends HTMLElement {
     this.setupEvents();
   }
 
-  render() {
+  private render() {
     const shadowRoot = this.attachShadow({ mode: 'open' });
     const style = document.createElement('style');
     style.textContent = this.stylesheet;
@@ -38,9 +38,9 @@ export class SiteRows extends HTMLElement {
     return { add };
   }
 
-  setupChildren() {}
+  private setupChildren() {}
 
-  setupEvents() {
+  private setupEvents() {
     this.elements.add.addEventListener('click', this.addNewEntry.bind(this));
   }
 
