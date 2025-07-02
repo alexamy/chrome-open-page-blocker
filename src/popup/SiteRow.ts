@@ -85,17 +85,17 @@ export class SiteRow extends HTMLElement {
   }
 
   //#region callbacks
-  onCheckbox = () => {
+  private onCheckbox = () => {
     const { checkbox } = this.elements;
     this.emitEvent('site-row:checked', checkbox.checked);
   };
 
-  onText = () => {
+  private onText = () => {
     const { text } = this.elements;
     this.emitEvent('site-row:changed', text.value);
   };
 
-  onRemove = () => {
+  private onRemove = () => {
     const { remove } = this.elements;
     this.emitEvent('site-row:removed', null);
   };

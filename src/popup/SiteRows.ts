@@ -23,7 +23,7 @@ export class SiteRows extends HTMLElement {
   connectedCallback() {
     this.elements = this.render();
     this.setupEvents();
-    this.emitData();
+    this.onChange();
   }
 
   disconnectCallback() {
@@ -65,11 +65,11 @@ export class SiteRows extends HTMLElement {
   }
 
   //#region callbacks
-  private emitData() {
+  private onChange = () => {
     const sites: string[] = [];
 
     this.emitEvent('site-rows:data', sites);
-  }
+  };
 
   private onAddNewEntry = () => {
     const row = document.createElement('site-row');
