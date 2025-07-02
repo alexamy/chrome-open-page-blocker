@@ -26,6 +26,10 @@ export class SiteRows extends HTMLElement {
     this.emitData();
   }
 
+  disconnectCallback() {
+    this.removeEvents();
+  }
+
   private render() {
     const shadowRoot = this.attachShadow({ mode: 'open' });
     const style = document.createElement('style');
@@ -45,13 +49,11 @@ export class SiteRows extends HTMLElement {
 
   //#region events
   private setupEvents() {
-    const addNewEntry = this.addNewEntry.bind(this);
-    this.elements.add.addEventListener('click', addNewEntry);
+    this.elements.add.addEventListener('click', this.addNewEntry);
   }
 
-  private addNewEntry() {
-    const row = document.createElement('site-row');
-    this.appendChild(row);
+  private removeEvents() {
+    this.elements.add.removeEventListener('click', this.addNewEntry);
   }
 
   private emitEvent<Name extends keyof SiteRowsEvent>(
@@ -62,11 +64,17 @@ export class SiteRows extends HTMLElement {
     this.dispatchEvent(event);
   }
 
+  //#region callbacks
   private emitData() {
     const sites: string[] = [];
 
     this.emitEvent('site-rows:data', sites);
   }
+
+  private addNewEntry = () => {
+    const row = document.createElement('site-row');
+    this.appendChild(row);
+  };
 }
 
 window.customElements.define('site-rows', SiteRows);
