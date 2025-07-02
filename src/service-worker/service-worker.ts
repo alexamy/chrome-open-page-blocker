@@ -16,7 +16,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         console.log('Active tab:', activeTab);
 
         if (activeTab.id) {
-          chrome.tabs.remove(activeTab.id);
+          // chrome.tabs.remove(activeTab.id);
         }
       } else {
         console.warn('No active tab found.');
