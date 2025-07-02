@@ -32,6 +32,7 @@ export class SiteRow extends HTMLElement {
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
+    checkbox.checked = true;
 
     const text = document.createElement('input');
     text.value = this.textContent ?? '';
