@@ -1,5 +1,5 @@
 {
-  "include": ["popup/**/*.ts", "content/**/*.ts"],
+  "include": ["src/**/*.ts"],
   "compilerOptions": {
     "target": "esnext",
     "lib": ["esnext", "DOM", "DOM.Iterable"],
