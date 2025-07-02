@@ -8,8 +8,9 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-function setup() {
+function setup({ textChild = '' } = {}) {
   const root = document.createElement('site-row') as SiteRow;
+  root.append(textChild);
   document.body.appendChild(root);
 
   const text = screen.getByShadowRole('textbox') as HTMLInputElement;
@@ -60,11 +61,9 @@ it('has value property', () => {
 });
 
 it('has value of its text content', () => {
-  const root = document.createElement('site-row') as SiteRow;
-  root.append('hello');
-  document.body.appendChild(root);
+  const element = setup({ textChild: 'hello' });
 
-  expect(root.value).toBe('hello');
+  expect(element.root.value).toBe('hello');
 });
 
 it('emits checked event', async () => {
