@@ -54,14 +54,6 @@ export class SiteRow extends HTMLElement {
     return { checkbox, text, add, remove };
   }
 
-  emitEvent<Name extends keyof SiteRowEvent>(
-    name: Name,
-    detail: SiteRowEvent[Name]
-  ) {
-    const event = new CustomEvent(`site-row:${name}`, { detail });
-    this.dispatchEvent(event);
-  }
-
   setupEvents() {
     const { checkbox, text, add, remove } = this.elements;
 
@@ -72,6 +64,14 @@ export class SiteRow extends HTMLElement {
     text.addEventListener('input', () => this.emitEvent('changed', text.value));
     add.addEventListener('click', () => this.emitEvent('add', null));
     remove.addEventListener('click', () => this.emitEvent('remove', null));
+  }
+
+  private emitEvent<Name extends keyof SiteRowEvent>(
+    name: Name,
+    detail: SiteRowEvent[Name]
+  ) {
+    const event = new CustomEvent(`site-row:${name}`, { detail });
+    this.dispatchEvent(event);
   }
 }
 
