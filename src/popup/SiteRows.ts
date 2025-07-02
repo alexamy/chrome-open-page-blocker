@@ -12,6 +12,7 @@ export class SiteRows extends HTMLElement {
 
   connectedCallback() {
     this.render();
+    this.setupChildren();
   }
 
   render() {
@@ -24,6 +25,8 @@ export class SiteRows extends HTMLElement {
     shadowRoot.appendChild(style);
     shadowRoot.appendChild(slot);
   }
+
+  setupChildren() {}
 }
 
 window.customElements.define('site-rows', SiteRows);
