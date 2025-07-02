@@ -1,1 +1,2 @@
-console.log('Hello from popup!');
+import './SiteRow';
+import './SiteRows';
