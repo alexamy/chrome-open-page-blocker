@@ -1,7 +1,10 @@
+import { type Message } from '../types';
+
 console.log('Service worker loaded!');
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   console.log('Received message:', request);
+  request = request as Message;
 
   if (request.type === 'current-url') {
     const url = request.url;
