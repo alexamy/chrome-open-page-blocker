@@ -6,6 +6,13 @@ export interface SiteRowEvent {
 }
 
 export class SiteRow extends HTMLElement {
+  stylesheet = `
+    :host {
+      display: flex;
+      gap: 5px;
+    }
+  `;
+
   elements!: {
     checkbox: HTMLInputElement;
     text: HTMLInputElement;
@@ -26,12 +33,7 @@ export class SiteRow extends HTMLElement {
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
     const style = document.createElement('style');
-    style.textContent = `
-      :host {
-        display: flex;
-        gap: 5px;
-      }
-    `;
+    style.textContent = this.stylesheet;
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
