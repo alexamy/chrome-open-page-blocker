@@ -3,7 +3,10 @@ console.log('This is a popup script!');
 class SiteRow extends HTMLElement {
   constructor() {
     super();
+    this.render();
+  }
 
+  render() {
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
     const style = document.createElement('style');
