@@ -1,4 +1,4 @@
-class SiteRow extends HTMLElement {
+export class SiteRow extends HTMLElement {
   elements: {
     name: HTMLInputElement;
     add: HTMLButtonElement;
