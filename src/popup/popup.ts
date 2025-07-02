@@ -1,3 +1,10 @@
+interface SiteRowEvent {
+  add: null;
+  remove: null;
+  checked: boolean;
+  changed: string;
+}
+
 export class SiteRow extends HTMLElement {
   elements: {
     checkbox: HTMLInputElement;
@@ -9,6 +16,7 @@ export class SiteRow extends HTMLElement {
   constructor() {
     super();
     this.elements = this.render();
+    this.setupEvents();
   }
 
   render() {
@@ -44,6 +52,26 @@ export class SiteRow extends HTMLElement {
     shadowRoot.appendChild(container);
 
     return { checkbox, text, add, remove };
+  }
+
+  emitEvent<Name extends keyof SiteRowEvent>(
+    name: Name,
+    detail: SiteRowEvent[Name]
+  ) {
+    const event = new CustomEvent(`site-row:${name}`, { detail });
+    this.dispatchEvent(event);
+  }
+
+  setupEvents() {
+    const { checkbox, text, add, remove } = this.elements;
+
+    checkbox.addEventListener('input', () =>
+      this.emitEvent('checked', checkbox.checked)
+    );
+
+    text.addEventListener('input', () => this.emitEvent('changed', text.value));
+    add.addEventListener('click', () => this.emitEvent('add', null));
+    remove.addEventListener('click', () => this.emitEvent('remove', null));
   }
 }
 
