@@ -103,6 +103,10 @@ export class SiteRow extends HTMLElement {
     return this.elements.checkbox.checked;
   }
 
+  set checked(value: boolean) {
+    this.elements.checkbox.checked = value;
+  }
+
   get value() {
     return this.elements.text.value;
   }

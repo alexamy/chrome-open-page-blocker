@@ -15,3 +15,10 @@ it('renders', () => {
   expect(screen.queryByShadowRole('textbox')).toBeInTheDocument();
   expect(screen.queryByShadowRole('checkbox')).toBeInTheDocument();
 });
+
+it('has checked property', () => {});
+it('has value property', () => {});
+
+it('emits checked event', () => {});
+it('emits changed event', () => {});
+it('emits removed event', () => {});
