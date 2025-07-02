@@ -7,16 +7,27 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-it('renders', () => {
-  const siteRow = document.createElement('site-row') as SiteRow;
-  document.body.appendChild(siteRow);
+function setup() {
+  const root = document.createElement('site-row') as SiteRow;
+  document.body.appendChild(root);
 
-  expect(screen.queryByShadowRole('button', { name: /−/ })).toBeInTheDocument();
-  expect(screen.queryByShadowRole('textbox')).toBeInTheDocument();
-  expect(screen.queryByShadowRole('checkbox')).toBeInTheDocument();
+  const text = screen.getByShadowRole('textbox');
+  const checkbox = screen.getByShadowRole('checkbox');
+  const remove = screen.getByShadowRole('button', { name: /−/ });
+
+  return { root, text, checkbox, remove };
+}
+
+it('renders', () => {
+  const element = setup();
+
+  expect(element.checkbox).toBeInTheDocument();
+  expect(element.text).toBeInTheDocument();
+  expect(element.remove).toBeInTheDocument();
 });
 
 it('has checked property', () => {});
+
 it('has value property', () => {});
 
 it('emits checked event', () => {});
