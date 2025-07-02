@@ -63,6 +63,7 @@ it('has value property', () => {
 it('has value of its text content', () => {
   const element = setup({ textChild: 'hello' });
 
+  expect(element.text.value).toBe('hello');
   expect(element.root.value).toBe('hello');
 });
 
@@ -82,6 +83,8 @@ it('emits changed event', async () => {
   const element = setup();
 
   await userEvent.type(element.text, 'hi');
+
+  expect(element.onChange).toBeCalledTimes(2);
 
   expect(element.onChange).toHaveBeenNthCalledWith(
     1,
