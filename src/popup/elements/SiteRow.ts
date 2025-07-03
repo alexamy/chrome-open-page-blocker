@@ -81,6 +81,8 @@ export class SiteRowElement extends HTMLElement {
 
   //#region callbacks
   private onCheckbox = () => {
+    this.checked = this.elements?.checkbox.checked ?? false;
+
     const event = new CustomEvent('site-row:checked', {
       detail: this.elements?.checkbox.checked,
     });

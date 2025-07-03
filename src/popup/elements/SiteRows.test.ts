@@ -18,7 +18,6 @@ function setup(children: string[] = []) {
   children.forEach((text) => {
     const child = document.createElement('site-row') as SiteRowElement;
     child.append(text);
-
     root.appendChild(child);
   });
 
