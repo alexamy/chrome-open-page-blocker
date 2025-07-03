@@ -1,4 +1,4 @@
-import { afterEach, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { screen } from 'shadow-dom-testing-library';
 import userEvent from '@testing-library/user-event';
 import { SiteRowElement } from './SiteRow';
@@ -39,48 +39,52 @@ it('renders', () => {
   expect(element.remove).toBeInTheDocument();
 });
 
-it('uses checked attribute', () => {
-  const root = document.createElement('site-row') as SiteRowElement;
-  root.setAttribute('checked', 'true');
-  document.body.appendChild(root);
+describe('checked property', () => {
+  it('on init', () => {
+    const root = document.createElement('site-row') as SiteRowElement;
+    root.setAttribute('checked', 'true');
+    document.body.appendChild(root);
 
-  const checkbox = screen.getByShadowRole('checkbox') as HTMLInputElement;
-  expect(checkbox.checked).toBe(true);
+    const checkbox = screen.getByShadowRole('checkbox') as HTMLInputElement;
+    expect(checkbox.checked).toBe(true);
+  });
+
+  it('on change', () => {
+    const element = setup();
+
+    // default
+    expect(element.checkbox.checked).toBe(false);
+    expect(element.root.checked).toBe(false);
+
+    // attribute
+    element.root.setAttribute('checked', 'true');
+    expect(element.checkbox.checked).toBe(true);
+    expect(element.root.checked).toBe(true);
+
+    // get set
+    element.root.checked = false;
+    expect(element.checkbox.checked).toBe(false);
+    expect(element.root.checked).toBe(false);
+  });
 });
 
-it('has checked property', () => {
-  const element = setup();
+describe('value property', () => {
+  it('on init', () => {
+    const element = setup({ textChild: 'hello' });
 
-  // default
-  expect(element.checkbox.checked).toBe(false);
-  expect(element.root.checked).toBe(false);
+    expect(element.text.value).toBe('hello');
+    expect(element.root.value).toBe('hello');
+  });
 
-  // attribute
-  element.root.setAttribute('checked', 'true');
-  expect(element.checkbox.checked).toBe(true);
-  expect(element.root.checked).toBe(true);
+  it('on change', () => {
+    const element = setup();
+    expect(element.text.value).toBe('');
+    expect(element.root.value).toBe('');
 
-  // get set
-  element.root.checked = false;
-  expect(element.checkbox.checked).toBe(false);
-  expect(element.root.checked).toBe(false);
-});
-
-it('has value property', () => {
-  const element = setup();
-  expect(element.text.value).toBe('');
-  expect(element.root.value).toBe('');
-
-  element.root.value = 'hello';
-  expect(element.text.value).toBe('hello');
-  expect(element.root.value).toBe('hello');
-});
-
-it('has value of its text content', () => {
-  const element = setup({ textChild: 'hello' });
-
-  expect(element.text.value).toBe('hello');
-  expect(element.root.value).toBe('hello');
+    element.root.value = 'hello';
+    expect(element.text.value).toBe('hello');
+    expect(element.root.value).toBe('hello');
+  });
 });
 
 it('emits checked event', async () => {
