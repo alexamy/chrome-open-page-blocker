@@ -62,7 +62,7 @@ describe('emits data', () => {
 
     expect(element.onData).toHaveBeenCalledExactlyOnceWith(
       expect.objectContaining({
-        detail: ['youtube.com'],
+        detail: [{ checked: false, value: 'youtube.com' }],
       })
     );
   });

@@ -2,8 +2,13 @@ import { SiteRowElement } from './SiteRow';
 
 declare global {
   interface HTMLElementEventMap {
-    'site-rows:data': CustomEvent<string[]>;
+    'site-rows:data': CustomEvent<SiteRowsDataEntry[]>;
   }
+}
+
+export interface SiteRowsDataEntry {
+  checked: boolean;
+  value: string;
 }
 
 export class SiteRowsElement extends HTMLElement {
@@ -69,9 +74,10 @@ export class SiteRowsElement extends HTMLElement {
   //#region callbacks
   private onChange = () => {
     const rows = this.querySelectorAll('site-row');
-    const sites = ([...rows] as SiteRowElement[])
-      .filter((row) => row.checked && row.value)
-      .map((row) => row.value);
+    const sites = ([...rows] as SiteRowElement[]).map((row) => ({
+      checked: row.checked,
+      value: row.value,
+    }));
 
     const event = new CustomEvent('site-rows:data', { detail: sites });
     this.dispatchEvent(event);
