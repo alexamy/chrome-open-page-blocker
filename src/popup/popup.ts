@@ -3,19 +3,21 @@ import './elements/SiteRow';
 import './elements/SiteRows';
 import { SiteRowsDataEntry } from './elements/SiteRows';
 
-chrome.storage.sync.get(STORAGE_KEY).then(setup);
-
-function setup(storage: { [name: string]: any }) {
-  const entries: SiteRowsDataEntry[] = storage[STORAGE_KEY] ?? [];
-
-  const root = createRoot(entries);
-  document.body.appendChild(root);
-
-  root.addEventListener('site-rows:data', (e) => {
+chrome.storage.sync.get(STORAGE_KEY).then((data) =>
+  setup(data, (entries) => {
     chrome.storage.sync.set({
-      [STORAGE_KEY]: e.detail,
+      [STORAGE_KEY]: entries,
     });
-  });
+  })
+);
+
+export function setup(
+  storage: { [name: string]: any },
+  onData: (entries: SiteRowsDataEntry[]) => void
+) {
+  const entries: SiteRowsDataEntry[] = storage[STORAGE_KEY] ?? [];
+  const root = createRoot(entries);
+  root.addEventListener('site-rows:data', (e) => onData(e.detail));
 }
 
 function createRoot(entries: SiteRowsDataEntry[]) {
@@ -27,6 +29,8 @@ function createRoot(entries: SiteRowsDataEntry[]) {
     element.append(entry.value);
     root.appendChild(element);
   });
+
+  document.body.appendChild(root);
 
   return root;
 }
