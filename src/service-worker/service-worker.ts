@@ -4,7 +4,7 @@ import { STORAGE_KEY, type Message } from '../types';
 // TODO: needs testing
 
 // local blocklist
-let blocklist = new Set();
+const block = prepareBlockList();
 
 start();
 
@@ -12,13 +12,13 @@ start();
 async function start() {
   const storage = await chrome.storage.sync.get(STORAGE_KEY);
   const entries: SiteRowsDataEntry[] = storage[STORAGE_KEY] ?? [];
-  blocklist = makeBlockList(entries);
+  block.reassign(entries);
 }
 
 // if storage is changed
 chrome.storage.onChanged.addListener((changes, namespace) => {
   const entries: SiteRowsDataEntry[] = changes[STORAGE_KEY]?.newValue ?? [];
-  blocklist = makeBlockList(entries);
+  block.reassign(entries);
 });
 
 // page web request
@@ -26,7 +26,7 @@ chrome.webRequest.onBeforeRequest.addListener(
   (details) => {
     const url = details.url;
     const path = url.replace(/^https?\:\/\//, '').replace(/^www\./, '');
-    const result = blocklist.has(path) ? { cancel: true } : {};
+    const result = block.list.has(path) ? { cancel: true } : {};
 
     return result;
   },
@@ -34,11 +34,21 @@ chrome.webRequest.onBeforeRequest.addListener(
   ['blocking']
 );
 
-// transform site rows to blocklist
-function makeBlockList(entries: SiteRowsDataEntry[]): Set<string> {
-  const list = entries
-    .filter((entry) => entry.checked)
-    .map((entry) => entry.value);
+function prepareBlockList() {
+  let list = new Set();
 
-  return new Set(...list);
+  function reassign(entries: SiteRowsDataEntry[]) {
+    const filtered = entries
+      .filter((entry) => entry.checked)
+      .map((entry) => entry.value);
+
+    list = new Set(...filtered);
+  }
+
+  return {
+    reassign,
+    get list() {
+      return list;
+    },
+  };
 }
