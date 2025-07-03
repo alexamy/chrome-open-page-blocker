@@ -11,5 +11,5 @@
     "service_worker": "dist/service-worker.js",
     "type": "module"
   },
-  "permissions": ["webRequest", "storage"]
+  "permissions": ["declarativeNetRequest", "storage"]
 }
