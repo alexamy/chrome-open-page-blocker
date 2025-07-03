@@ -17,5 +17,5 @@
     "service_worker": "dist/service-worker.js",
     "type": "module"
   },
-  "permissions": ["storage", "tabs"]
+  "permissions": ["activeTab", "storage", "tabs"]
 }

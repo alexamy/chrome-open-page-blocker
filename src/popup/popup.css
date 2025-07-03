@@ -2,4 +2,5 @@ body {
   padding: 5px 10px;
   min-width: 300px;
   width: fit-content;
+  height: fit-content;
 }

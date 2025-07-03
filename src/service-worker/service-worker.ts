@@ -9,7 +9,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   if (request.type === 'current-url') {
     const url = request.url as string;
-    const path = url.replace(/^https?\:\/\//, '');
+    const path = url.replace(/^https?\:\/\//, '').replace(/^www\./, '');
 
     chrome.storage.sync.get(['site-rows-storage']).then((data) => {
       const entries = (data['site-rows-storage'] as SiteRowsDataEntry[]) ?? [];
