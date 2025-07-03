@@ -1,5 +1,5 @@
 import { SiteRowsDataEntry } from '../popup/elements/SiteRows';
-import { STORAGE_KEY, type Message } from '../types';
+import { STORAGE_KEY } from '../types';
 
 // TODO: needs testing
 
