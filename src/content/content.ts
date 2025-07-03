@@ -5,5 +5,3 @@ chrome.runtime.sendMessage({
   type: 'current-url',
   url: window.location.href,
 } satisfies Message);
-
-// WARN: No exports or chrome will fail!
