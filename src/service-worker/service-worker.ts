@@ -13,19 +13,18 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   return false;
 });
 
-function processUrl(url: string) {
+async function processUrl(url: string) {
   const path = url.replace(/^https?\:\/\//, '').replace(/^www\./, '');
 
-  chrome.storage.sync.get(STORAGE_KEY).then((data) => {
-    const entries: SiteRowsDataEntry[] = data[STORAGE_KEY] ?? [];
-    const shouldClose = entries.some(
-      (entry) => entry.checked && path.startsWith(entry.value)
-    );
+  const storage = await chrome.storage.sync.get(STORAGE_KEY);
+  const entries: SiteRowsDataEntry[] = storage[STORAGE_KEY] ?? [];
+  const shouldClose = entries.some(
+    (entry) => entry.checked && path.startsWith(entry.value)
+  );
 
-    if (shouldClose) {
-      closeCurrentTab();
-    }
-  });
+  if (shouldClose) {
+    closeCurrentTab();
+  }
 }
 
 function closeCurrentTab() {
