@@ -31,6 +31,12 @@ async function updateRules(entries: SiteRowsDataEntry[]) {
       id: index + 1,
       priority: 1,
       action: { type: 'block' },
+      // action: {
+      //   type: 'redirect',
+      //   redirect: {
+      //     url: 'https://example.com',
+      //   },
+      // },
       condition: {
         urlFilter: `||${site}/`,
         resourceTypes: ['main_frame', 'sub_frame'],
