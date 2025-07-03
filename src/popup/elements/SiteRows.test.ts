@@ -11,5 +11,4 @@ describe('emits data', () => {
   it('when row is removed', () => {});
   it('when row is checked', () => {});
   it('when row is changed', () => {});
-  it('only for checked rows with value', () => {});
 });
