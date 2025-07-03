@@ -12,6 +12,9 @@ afterEach(() => {
 function setup(children: string[] = []) {
   const root = document.createElement('site-rows');
 
+  const onData = vi.fn();
+  root.addEventListener('site-rows:data', onData);
+
   children.forEach((text) => {
     const child = document.createElement('site-row') as SiteRowElement;
     child.append(text);
@@ -22,9 +25,6 @@ function setup(children: string[] = []) {
   document.body.appendChild(root);
 
   const add = screen.getByShadowRole('button', { name: /\+/ });
-
-  const onData = vi.fn();
-  root.addEventListener('site-rows:data', onData);
 
   return { root, children, add, onData };
 }

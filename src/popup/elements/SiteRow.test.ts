@@ -12,13 +12,6 @@ function setup({ textChild = '', checked = false } = {}) {
   const root = document.createElement('site-row') as SiteRowElement;
   root.append(textChild);
   root.setAttribute('checked', checked.toString());
-  document.body.appendChild(root);
-
-  const text = screen.getByShadowRole('textbox') as HTMLInputElement;
-  const checkbox = screen.getByShadowRole('checkbox') as HTMLInputElement;
-  const remove = screen.getByShadowRole('button', {
-    name: /−/,
-  }) as HTMLButtonElement;
 
   const onChange = vi.fn();
   root.addEventListener('site-row:changed', onChange);
@@ -28,6 +21,14 @@ function setup({ textChild = '', checked = false } = {}) {
 
   const onRemove = vi.fn();
   root.addEventListener('site-row:removed', onRemove);
+
+  document.body.appendChild(root);
+
+  const text = screen.getByShadowRole('textbox') as HTMLInputElement;
+  const checkbox = screen.getByShadowRole('checkbox') as HTMLInputElement;
+  const remove = screen.getByShadowRole('button', {
+    name: /−/,
+  }) as HTMLButtonElement;
 
   return { root, text, checkbox, remove, onCheck, onChange, onRemove };
 }
