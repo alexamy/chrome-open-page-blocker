@@ -74,7 +74,7 @@ export class SiteRowsElement extends HTMLElement {
   //#region callbacks
   private onChange = () => {
     const rows = this.querySelectorAll('site-row');
-    const sites = ([...rows] as SiteRowElement[]).map((row) => ({
+    const sites = (Array.from(rows) as SiteRowElement[]).map((row) => ({
       checked: row.checked,
       value: row.value,
     }));

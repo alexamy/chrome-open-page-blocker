@@ -67,7 +67,23 @@ describe('emits data', () => {
     );
   });
 
-  it('when row is added', () => {});
+  it('when row is added', async () => {
+    const element = setup(['youtube.com']);
+
+    await userEvent.click(element.add);
+    const input = screen.getAllByShadowRole('textbox')[1];
+    await userEvent.type(input, 'pinterest.com');
+
+    expect(element.onData).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        detail: [
+          { checked: false, value: 'youtube.com' },
+          { checked: false, value: 'pinterest.com' },
+        ],
+      })
+    );
+  });
+
   it('when row is removed', () => {});
   it('when row is checked', () => {});
   it('when row is changed', () => {});
