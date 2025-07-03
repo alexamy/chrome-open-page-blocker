@@ -1,5 +1,5 @@
 import { SiteRowsDataEntry } from '../popup/elements/SiteRows';
-import { type Message } from '../types';
+import { STORAGE_KEY, type Message } from '../types';
 
 // TODO: needs testing
 
@@ -11,8 +11,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     const url = request.url as string;
     const path = url.replace(/^https?\:\/\//, '').replace(/^www\./, '');
 
-    chrome.storage.sync.get('site-rows-storage').then((data) => {
-      const entries: SiteRowsDataEntry[] = data['site-rows-storage'] ?? [];
+    chrome.storage.sync.get(STORAGE_KEY).then((data) => {
+      const entries: SiteRowsDataEntry[] = data[STORAGE_KEY] ?? [];
       const shouldClose = entries.some(
         (entry) => entry.checked && path.startsWith(entry.value)
       );

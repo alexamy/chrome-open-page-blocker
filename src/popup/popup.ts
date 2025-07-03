@@ -1,16 +1,17 @@
+import { STORAGE_KEY } from '../types';
 import './elements/SiteRow';
 import './elements/SiteRows';
 import { SiteRowsDataEntry } from './elements/SiteRows';
 
-chrome.storage.sync.get('site-rows-storage').then((data) => {
-  const entries: SiteRowsDataEntry[] = data['site-rows-storage'];
+chrome.storage.sync.get(STORAGE_KEY).then((data) => {
+  const entries: SiteRowsDataEntry[] = data[STORAGE_KEY] ?? [];
 
   const root = setup(entries);
   document.body.appendChild(root);
 
   root.addEventListener('site-rows:data', (e) => {
     chrome.storage.sync.set({
-      'site-rows-storage': e.detail,
+      [STORAGE_KEY]: e.detail,
     });
   });
 });
