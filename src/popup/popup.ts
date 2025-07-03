@@ -3,10 +3,12 @@ import './elements/SiteRow';
 import './elements/SiteRows';
 import { SiteRowsDataEntry } from './elements/SiteRows';
 
-chrome.storage.sync.get(STORAGE_KEY).then((data) => {
-  const entries: SiteRowsDataEntry[] = data[STORAGE_KEY] ?? [];
+chrome.storage.sync.get(STORAGE_KEY).then(setup);
 
-  const root = setup(entries);
+function setup(storage: { [name: string]: any }) {
+  const entries: SiteRowsDataEntry[] = storage[STORAGE_KEY] ?? [];
+
+  const root = createRoot(entries);
   document.body.appendChild(root);
 
   root.addEventListener('site-rows:data', (e) => {
@@ -14,9 +16,9 @@ chrome.storage.sync.get(STORAGE_KEY).then((data) => {
       [STORAGE_KEY]: e.detail,
     });
   });
-});
+}
 
-function setup(entries: SiteRowsDataEntry[]) {
+function createRoot(entries: SiteRowsDataEntry[]) {
   const root = document.createElement('site-rows');
 
   entries.forEach((entry) => {
