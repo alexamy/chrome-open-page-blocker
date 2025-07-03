@@ -98,6 +98,32 @@ describe('emits data', () => {
     );
   });
 
-  it('when row is removed', () => {});
-  it('when row is checked', () => {});
+  it('when row is removed', async () => {
+    const element = setup(['youtube.com']);
+
+    await userEvent.click(element.add);
+    await userEvent.keyboard('pinterest.com');
+
+    const remove = screen.getAllByShadowRole('button', { name: /−/ })[0];
+    await userEvent.click(remove);
+
+    expect(element.onData).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        detail: [{ checked: false, value: 'pinterest.com' }],
+      })
+    );
+  });
+
+  it('when row is checked', async () => {
+    const element = setup(['youtube.com']);
+
+    const checkbox = screen.getByShadowRole('checkbox');
+    await userEvent.click(checkbox);
+
+    expect(element.onData).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        detail: [{ checked: true, value: 'youtube.com' }],
+      })
+    );
+  });
 });
