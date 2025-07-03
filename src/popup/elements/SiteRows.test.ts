@@ -48,10 +48,12 @@ it('adds and focus new row when button is clicked', async () => {
   expect(screen.queryByShadowRole('textbox')).not.toBeInTheDocument();
 
   await userEvent.click(element.add);
+  await userEvent.keyboard('facebook.com');
 
+  // expect toHaveFocus is not working properly with shadow dom
   const input = screen.getByShadowRole('textbox') as HTMLInputElement;
   expect(input).toBeInTheDocument();
-  expect(input).toHaveFocus();
+  expect(input.value).toBe('facebook.com');
 });
 
 describe('emits data', () => {

@@ -82,6 +82,7 @@ export class SiteRowsElement extends HTMLElement {
     this.connectRow(row);
     this.appendChild(row);
     this.onChange();
+    row.text.focus();
   };
 
   private onRemoveRow = (event: Event) => {
