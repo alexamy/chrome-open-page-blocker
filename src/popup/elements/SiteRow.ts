@@ -112,7 +112,7 @@ export class SiteRowElement extends HTMLElement {
     return this.elements.text;
   }
 
-  get checked() {
+  get checked(): boolean {
     return this.getAttribute('checked') === 'true';
   }
 
@@ -120,7 +120,7 @@ export class SiteRowElement extends HTMLElement {
     this.setAttribute('checked', value.toString());
   }
 
-  get value() {
+  get value(): string {
     return this.elements.text.value;
   }
 
