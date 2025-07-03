@@ -55,6 +55,15 @@ it('adds and focus new row when button is clicked', async () => {
   expect(input.value).toBe('facebook.com');
 });
 
+it('removes row', async () => {
+  const element = setup(['youtube.com']);
+
+  const remove = screen.getByShadowRole('button', { name: /−/ });
+  await userEvent.click(remove);
+
+  expect(screen.queryByShadowText('youtube.com')).not.toBeInTheDocument();
+});
+
 describe('emits data', () => {
   it('when created', () => {
     const element = setup(['youtube.com']);
