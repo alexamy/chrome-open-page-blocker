@@ -3,15 +3,21 @@ import './elements/SiteRow';
 import './elements/SiteRows';
 import { SiteRowsDataEntry } from './elements/SiteRows';
 
-chrome.storage.sync.get(STORAGE_KEY).then((data) =>
-  setup(data, (entries) => {
+start();
+
+async function start() {
+  const storage = await chrome.storage.sync.get(STORAGE_KEY);
+
+  function saveNewData(entries: SiteRowsDataEntry[]) {
     chrome.storage.sync.set({
       [STORAGE_KEY]: entries,
     });
-  })
-);
+  }
 
-export function setup(
+  setup(storage, saveNewData);
+}
+
+function setup(
   storage: { [name: string]: any },
   onData: (entries: SiteRowsDataEntry[]) => void
 ) {
