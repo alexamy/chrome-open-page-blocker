@@ -12,7 +12,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     const path = url.replace(/^https?\:\/\//, '').replace(/^www\./, '');
 
     chrome.storage.sync.get(['site-rows-storage']).then((data) => {
-      const entries = (data['site-rows-storage'] as SiteRowsDataEntry[]) ?? [];
+      const entries: SiteRowsDataEntry[] = data['site-rows-storage'] ?? [];
       const shouldClose = entries.some(
         (entry) => entry.checked && path.startsWith(entry.value)
       );

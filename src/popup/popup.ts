@@ -4,8 +4,8 @@ import { SiteRowsDataEntry } from './elements/SiteRows';
 
 chrome.storage.sync.get(['site-rows-storage']).then((data) => {
   const root = document.createElement('site-rows');
+  const entries: SiteRowsDataEntry[] = data['site-rows-storage'];
 
-  const entries = data['site-rows-storage'] as SiteRowsDataEntry[];
   if (entries) {
     entries.forEach((entry) => {
       const element = document.createElement('site-row');
