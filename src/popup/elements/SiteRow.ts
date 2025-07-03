@@ -99,6 +99,14 @@ export class SiteRowElement extends HTMLElement {
   };
 
   //#region set get
+  static observedAttributes = ['checked'];
+
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    if (name === 'checked') {
+      this.checked = Boolean(newValue);
+    }
+  }
+
   get text() {
     return this.elements.text;
   }
