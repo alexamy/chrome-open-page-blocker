@@ -57,7 +57,16 @@ it('adds and focus new row when button is clicked', async () => {
 });
 
 describe('emits data', () => {
-  it('when created', () => {});
+  it('when created', () => {
+    const element = setup(['youtube.com']);
+
+    expect(element.onData).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({
+        detail: ['youtube.com'],
+      })
+    );
+  });
+
   it('when row is added', () => {});
   it('when row is removed', () => {});
   it('when row is checked', () => {});
