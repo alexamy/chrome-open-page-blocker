@@ -43,11 +43,6 @@ it('has checked property', () => {
   const element = setup();
 
   // default
-  expect(element.checkbox.checked).toBe(true);
-  expect(element.root.checked).toBe(true);
-
-  // get set
-  element.root.checked = false;
   expect(element.checkbox.checked).toBe(false);
   expect(element.root.checked).toBe(false);
 
@@ -55,6 +50,11 @@ it('has checked property', () => {
   element.root.setAttribute('checked', 'true');
   expect(element.checkbox.checked).toBe(true);
   expect(element.root.checked).toBe(true);
+
+  // get set
+  element.root.checked = false;
+  expect(element.checkbox.checked).toBe(false);
+  expect(element.root.checked).toBe(false);
 });
 
 it('has value property', () => {
@@ -81,7 +81,7 @@ it('emits checked event', async () => {
 
   expect(element.onCheck).toHaveBeenCalledExactlyOnceWith(
     expect.objectContaining({
-      detail: false,
+      detail: true,
     })
   );
 });

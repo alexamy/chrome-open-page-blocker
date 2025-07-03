@@ -46,7 +46,6 @@ export class SiteRowElement extends HTMLElement {
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
-    checkbox.checked = true;
 
     const text = document.createElement('input');
     text.classList.add('text');
@@ -102,8 +101,10 @@ export class SiteRowElement extends HTMLElement {
   static observedAttributes = ['checked'];
 
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-    if (name === 'checked') {
-      this.checked = Boolean(newValue);
+    if (newValue !== oldValue) {
+      if (name === 'checked') {
+        this.checked = newValue === 'true';
+      }
     }
   }
 
@@ -112,11 +113,12 @@ export class SiteRowElement extends HTMLElement {
   }
 
   get checked() {
-    return this.elements.checkbox.checked;
+    return this.getAttribute('checked') === 'true';
   }
 
   set checked(value: boolean) {
     this.elements.checkbox.checked = value;
+    this.setAttribute('checked', value.toString());
   }
 
   get value() {
