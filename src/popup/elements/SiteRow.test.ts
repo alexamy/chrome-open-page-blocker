@@ -1,7 +1,7 @@
 import { afterEach, expect, it, vi } from 'vitest';
 import { screen } from 'shadow-dom-testing-library';
 import userEvent from '@testing-library/user-event';
-import { SiteRow } from './SiteRow';
+import { SiteRowElement } from './SiteRow';
 import './SiteRow';
 
 afterEach(() => {
@@ -9,7 +9,7 @@ afterEach(() => {
 });
 
 function setup({ textChild = '' } = {}) {
-  const root = document.createElement('site-row') as SiteRow;
+  const root = document.createElement('site-row') as SiteRowElement;
   root.append(textChild);
   document.body.appendChild(root);
 

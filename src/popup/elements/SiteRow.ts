@@ -6,7 +6,7 @@ declare global {
   }
 }
 
-export class SiteRow extends HTMLElement {
+export class SiteRowElement extends HTMLElement {
   stylesheet = `
     :host {
       display: flex;
@@ -116,4 +116,4 @@ export class SiteRow extends HTMLElement {
   }
 }
 
-window.customElements.define('site-row', SiteRow);
+window.customElements.define('site-row', SiteRowElement);
