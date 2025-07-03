@@ -7,14 +7,13 @@ start();
 
 async function start() {
   const storage = await chrome.storage.sync.get(STORAGE_KEY);
-
-  function saveNewData(entries: SiteRowsDataEntry[]) {
-    chrome.storage.sync.set({
-      [STORAGE_KEY]: entries,
-    });
-  }
-
   setup(storage, saveNewData);
+}
+
+function saveNewData(entries: SiteRowsDataEntry[]) {
+  chrome.storage.sync.set({
+    [STORAGE_KEY]: entries,
+  });
 }
 
 function setup(
