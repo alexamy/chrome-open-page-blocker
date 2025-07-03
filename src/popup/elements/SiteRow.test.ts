@@ -42,12 +42,19 @@ it('renders', () => {
 it('has checked property', () => {
   const element = setup();
 
+  // default
   expect(element.checkbox.checked).toBe(true);
   expect(element.root.checked).toBe(true);
 
+  // get set
   element.root.checked = false;
   expect(element.checkbox.checked).toBe(false);
   expect(element.root.checked).toBe(false);
+
+  // attribute
+  element.root.setAttribute('checked', 'true');
+  expect(element.checkbox.checked).toBe(true);
+  expect(element.root.checked).toBe(true);
 });
 
 it('has value property', () => {
@@ -108,3 +115,5 @@ it('emits removed event', async () => {
 
   expect(element.onRemove).toHaveBeenCalledOnce();
 });
+
+it('has checked attribute', () => {});
