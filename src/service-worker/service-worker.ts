@@ -31,7 +31,10 @@ async function updateRules(entries: SiteRowsDataEntry[]) {
       id: index + 1,
       priority: 1,
       action: { type: 'block' },
-      condition: { urlFilter: `||${site}/`, resourceTypes: ['main_frame'] },
+      condition: {
+        urlFilter: `||${site}/`,
+        resourceTypes: ['main_frame', 'sub_frame'],
+      },
     })
   );
 
