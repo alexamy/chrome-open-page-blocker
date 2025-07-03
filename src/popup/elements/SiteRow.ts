@@ -103,7 +103,7 @@ export class SiteRowElement extends HTMLElement {
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     if (newValue !== oldValue) {
       if (name === 'checked') {
-        this.checked = newValue === 'true';
+        this.elements.checkbox.checked = newValue === 'true';
       }
     }
   }
@@ -117,7 +117,6 @@ export class SiteRowElement extends HTMLElement {
   }
 
   set checked(value: boolean) {
-    this.elements.checkbox.checked = value;
     this.setAttribute('checked', value.toString());
   }
 

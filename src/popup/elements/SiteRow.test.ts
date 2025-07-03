@@ -39,6 +39,15 @@ it('renders', () => {
   expect(element.remove).toBeInTheDocument();
 });
 
+it('use checked attribute', () => {
+  const root = document.createElement('site-row') as SiteRowElement;
+  root.setAttribute('checked', 'true');
+  document.body.appendChild(root);
+
+  const checkbox = screen.getByShadowRole('checkbox') as HTMLInputElement;
+  expect(checkbox.checked).toBe(true);
+});
+
 it('has checked property', () => {
   const element = setup();
 
