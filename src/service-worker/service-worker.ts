@@ -7,26 +7,25 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   request = request as Message;
 
   if (request.type === 'current-url') {
-    const url = request.url as string;
-    const path = getPath(url);
-
-    chrome.storage.sync.get(STORAGE_KEY).then((data) => {
-      const entries: SiteRowsDataEntry[] = data[STORAGE_KEY] ?? [];
-      if (isFromEntries(path, entries)) {
-        closeCurrentTab();
-      }
-    });
+    processUrl(request.url);
   }
 
   return false;
 });
 
-function getPath(url: string) {
-  return url.replace(/^https?\:\/\//, '').replace(/^www\./, '');
-}
+function processUrl(url: string) {
+  const path = url.replace(/^https?\:\/\//, '').replace(/^www\./, '');
 
-function isFromEntries(path: string, entries: SiteRowsDataEntry[]) {
-  return entries.some((entry) => entry.checked && path.startsWith(entry.value));
+  chrome.storage.sync.get(STORAGE_KEY).then((data) => {
+    const entries: SiteRowsDataEntry[] = data[STORAGE_KEY] ?? [];
+    const shouldClose = entries.some(
+      (entry) => entry.checked && path.startsWith(entry.value)
+    );
+
+    if (shouldClose) {
+      closeCurrentTab();
+    }
+  });
 }
 
 function closeCurrentTab() {
