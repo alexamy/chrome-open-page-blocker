@@ -21,7 +21,7 @@ chrome.storage.onChanged.addListener((changes) => {
 async function updateRules(entries: SiteRowsDataEntry[]) {
   const blocklist = getBlocklist(entries);
 
-  // Remove existing rules
+  // Get existing rules
   const existingRules = await chrome.declarativeNetRequest.getDynamicRules();
   const ruleIds = existingRules.map((rule) => rule.id);
 
@@ -31,12 +31,12 @@ async function updateRules(entries: SiteRowsDataEntry[]) {
       id: index + 1,
       priority: 1,
       action: { type: 'block' },
-      condition: { urlFilter: `*${site}*` },
+      condition: { urlFilter: `||${site}/` },
     })
   );
 
   // Update rules
-  chrome.declarativeNetRequest.updateDynamicRules({
+  await chrome.declarativeNetRequest.updateDynamicRules({
     removeRuleIds: ruleIds,
     addRules: newRules,
   });
