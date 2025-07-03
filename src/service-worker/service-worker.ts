@@ -3,40 +3,42 @@ import { STORAGE_KEY, type Message } from '../types';
 
 // TODO: needs testing
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  request = request as Message;
+// local blocklist
+let blocklist = new Set();
 
-  if (request.type === 'current-url') {
-    processUrl(request.url);
-  }
+start();
 
-  return false;
-});
-
-async function processUrl(url: string) {
-  const path = url.replace(/^https?\:\/\//, '').replace(/^www\./, '');
-
+// setup
+async function start() {
   const storage = await chrome.storage.sync.get(STORAGE_KEY);
   const entries: SiteRowsDataEntry[] = storage[STORAGE_KEY] ?? [];
-  const shouldClose = entries.some(
-    (entry) => entry.checked && path.startsWith(entry.value)
-  );
-
-  if (shouldClose) {
-    closeCurrentTab();
-  }
+  blocklist = makeBlockList(entries);
 }
 
-function closeCurrentTab() {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    if (tabs.length > 0) {
-      const activeTab = tabs[0];
+// if storage is changed
+chrome.storage.onChanged.addListener((changes, namespace) => {
+  const entries: SiteRowsDataEntry[] = changes[STORAGE_KEY]?.newValue ?? [];
+  blocklist = makeBlockList(entries);
+});
 
-      if (activeTab.id) {
-        chrome.tabs.remove(activeTab.id);
-      }
-    } else {
-      console.warn('No active tab found.');
-    }
-  });
+// page web request
+chrome.webRequest.onBeforeRequest.addListener(
+  (details) => {
+    const url = details.url;
+    const path = url.replace(/^https?\:\/\//, '').replace(/^www\./, '');
+    const result = blocklist.has(path) ? { cancel: true } : {};
+
+    return result;
+  },
+  { urls: ['<all_urls>'] },
+  ['blocking']
+);
+
+// transform site rows to blocklist
+function makeBlockList(entries: SiteRowsDataEntry[]): Set<string> {
+  const list = entries
+    .filter((entry) => entry.checked)
+    .map((entry) => entry.value);
+
+  return new Set(...list);
 }
