@@ -71,8 +71,22 @@ describe('emits data', () => {
     const element = setup(['youtube.com']);
 
     await userEvent.click(element.add);
-    const input = screen.getAllByShadowRole('textbox')[1];
-    await userEvent.type(input, 'pinterest.com');
+
+    expect(element.onData).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        detail: [
+          { checked: false, value: 'youtube.com' },
+          { checked: false, value: '' },
+        ],
+      })
+    );
+  });
+
+  it('when row is changed', async () => {
+    const element = setup(['youtube.com']);
+
+    await userEvent.click(element.add);
+    await userEvent.keyboard('pinterest.com');
 
     expect(element.onData).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -86,5 +100,4 @@ describe('emits data', () => {
 
   it('when row is removed', () => {});
   it('when row is checked', () => {});
-  it('when row is changed', () => {});
 });
