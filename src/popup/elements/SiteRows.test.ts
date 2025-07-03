@@ -135,3 +135,6 @@ describe('emits data', () => {
     );
   });
 });
+
+// programmatically adding new rows with js
+it.todo('allows appending new rows');
