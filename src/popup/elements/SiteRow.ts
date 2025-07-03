@@ -47,6 +47,10 @@ export class SiteRowElement extends HTMLElement {
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
 
+    if (this.hasAttribute('checked')) {
+      checkbox.checked = this.getAttribute('checked') === 'true';
+    }
+
     const text = document.createElement('input');
     text.classList.add('text');
     text.value = this.textContent ?? '';
