@@ -18,8 +18,28 @@ chrome.storage.onChanged.addListener((changes) => {
   updateRules(entries);
 });
 
-function updateRules(entries: SiteRowsDataEntry[]) {
+async function updateRules(entries: SiteRowsDataEntry[]) {
   const blocklist = getBlocklist(entries);
+
+  // Remove existing rules
+  const existingRules = await chrome.declarativeNetRequest.getDynamicRules();
+  const ruleIds = existingRules.map((rule) => rule.id);
+
+  // Create new rules
+  const newRules: chrome.declarativeNetRequest.Rule[] = blocklist.map(
+    (site, index) => ({
+      id: index + 1,
+      priority: 1,
+      action: { type: 'block' },
+      condition: { urlFilter: `*${site}*` },
+    })
+  );
+
+  // Update rules
+  chrome.declarativeNetRequest.updateDynamicRules({
+    removeRuleIds: ruleIds,
+    addRules: newRules,
+  });
 }
 
 function getBlocklist(entries: SiteRowsDataEntry[]) {
