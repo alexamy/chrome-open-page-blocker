@@ -7,7 +7,7 @@ declare global {
 }
 
 export class SiteRowElement extends HTMLElement {
-  stylesheet = `
+  private stylesheet = `
     :host {
       display: flex;
       gap: 5px;
@@ -18,7 +18,7 @@ export class SiteRowElement extends HTMLElement {
     }
   `;
 
-  elements!: {
+  private elements!: {
     checkbox: HTMLInputElement;
     text: HTMLInputElement;
     remove: HTMLButtonElement;
@@ -99,6 +99,10 @@ export class SiteRowElement extends HTMLElement {
   };
 
   //#region set get
+  get text() {
+    return this.elements.text;
+  }
+
   get checked() {
     return this.elements.checkbox.checked;
   }

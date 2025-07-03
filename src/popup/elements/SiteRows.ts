@@ -7,7 +7,7 @@ declare global {
 }
 
 export class SiteRowsElement extends HTMLElement {
-  stylesheet = `
+  private stylesheet = `
     :host {
       display: flex;
       flex-direction: column;
@@ -15,7 +15,7 @@ export class SiteRowsElement extends HTMLElement {
     }
   `;
 
-  elements!: {
+  private elements!: {
     add: HTMLButtonElement;
   };
 

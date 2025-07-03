@@ -3,6 +3,7 @@ import { screen } from 'shadow-dom-testing-library';
 import { SiteRowElement } from './SiteRow';
 import './SiteRow';
 import './SiteRows';
+import userEvent from '@testing-library/user-event';
 
 afterEach(() => {
   document.body.innerHTML = '';
@@ -41,7 +42,17 @@ it('renders with child elements', () => {
   expect(screen.getByShadowText('pinterest.com')).toBeInTheDocument();
 });
 
-it('adds and focus new row when button is clicked', () => {});
+it('adds and focus new row when button is clicked', async () => {
+  const element = setup();
+
+  expect(screen.queryByShadowRole('textbox')).not.toBeInTheDocument();
+
+  await userEvent.click(element.add);
+
+  const input = screen.getByShadowRole('textbox') as HTMLInputElement;
+  expect(input).toBeInTheDocument();
+  expect(input).toHaveFocus();
+});
 
 describe('emits data', () => {
   it('when created', () => {});
