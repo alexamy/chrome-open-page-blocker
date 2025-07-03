@@ -8,9 +8,10 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-function setup({ textChild = '' } = {}) {
+function setup({ textChild = '', checked = false } = {}) {
   const root = document.createElement('site-row') as SiteRowElement;
   root.append(textChild);
+  root.setAttribute('checked', checked.toString());
   document.body.appendChild(root);
 
   const text = screen.getByShadowRole('textbox') as HTMLInputElement;
@@ -41,12 +42,10 @@ it('renders', () => {
 
 describe('checked property', () => {
   it('on init', () => {
-    const root = document.createElement('site-row') as SiteRowElement;
-    root.setAttribute('checked', 'true');
-    document.body.appendChild(root);
+    const element = setup({ checked: true });
 
-    const checkbox = screen.getByShadowRole('checkbox') as HTMLInputElement;
-    expect(checkbox.checked).toBe(true);
+    expect(element.checkbox.checked).toBe(true);
+    expect(element.root.checked).toBe(true);
   });
 
   it('on change', () => {
