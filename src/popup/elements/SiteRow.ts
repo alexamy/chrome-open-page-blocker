@@ -18,7 +18,7 @@ export class SiteRowElement extends HTMLElement {
     }
   `;
 
-  private elements!: {
+  private elements?: {
     checkbox: HTMLInputElement;
     text: HTMLInputElement;
     remove: HTMLButtonElement;
@@ -64,30 +64,28 @@ export class SiteRowElement extends HTMLElement {
 
   //#region events
   private setupEvents() {
-    const { checkbox, text, remove } = this.elements;
-    checkbox.addEventListener('input', this.onCheckbox);
-    text.addEventListener('input', this.onText);
-    remove.addEventListener('click', this.onRemove);
+    this.elements?.checkbox.addEventListener('input', this.onCheckbox);
+    this.elements?.text.addEventListener('input', this.onText);
+    this.elements?.remove.addEventListener('click', this.onRemove);
   }
 
   private removeEvents() {
-    const { checkbox, text, remove } = this.elements;
-    checkbox.removeEventListener('input', this.onCheckbox);
-    text.removeEventListener('input', this.onText);
-    remove.removeEventListener('click', this.onRemove);
+    this.elements?.checkbox.removeEventListener('input', this.onCheckbox);
+    this.elements?.text.removeEventListener('input', this.onText);
+    this.elements?.remove.removeEventListener('click', this.onRemove);
   }
 
   //#region callbacks
   private onCheckbox = () => {
     const event = new CustomEvent('site-row:checked', {
-      detail: this.elements.checkbox.checked,
+      detail: this.elements?.checkbox.checked,
     });
     this.dispatchEvent(event);
   };
 
   private onText = () => {
     const event = new CustomEvent('site-row:changed', {
-      detail: this.elements.text.value,
+      detail: this.elements?.text.value,
     });
     this.dispatchEvent(event);
   };
@@ -103,13 +101,15 @@ export class SiteRowElement extends HTMLElement {
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     if (newValue !== oldValue) {
       if (name === 'checked') {
-        this.elements.checkbox.checked = newValue === 'true';
+        if (this.elements?.checkbox) {
+          this.elements.checkbox.checked = newValue === 'true';
+        }
       }
     }
   }
 
   get text() {
-    return this.elements.text;
+    return this.elements?.text;
   }
 
   get checked(): boolean {
@@ -121,11 +121,13 @@ export class SiteRowElement extends HTMLElement {
   }
 
   get value(): string {
-    return this.elements.text.value;
+    return this.elements?.text.value || '';
   }
 
   set value(text: string) {
-    this.elements.text.value = text;
+    if (this.elements?.text) {
+      this.elements.text.value = text;
+    }
   }
 }
 

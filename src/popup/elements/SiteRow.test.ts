@@ -39,7 +39,7 @@ it('renders', () => {
   expect(element.remove).toBeInTheDocument();
 });
 
-it('use checked attribute', () => {
+it('uses checked attribute', () => {
   const root = document.createElement('site-row') as SiteRowElement;
   root.setAttribute('checked', 'true');
   document.body.appendChild(root);
