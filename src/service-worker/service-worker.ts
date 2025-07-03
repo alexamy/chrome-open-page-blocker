@@ -4,20 +4,15 @@ import { STORAGE_KEY, type Message } from '../types';
 // TODO: needs testing
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log('Received message:', request);
   request = request as Message;
 
   if (request.type === 'current-url') {
     const url = request.url as string;
-    const path = url.replace(/^https?\:\/\//, '').replace(/^www\./, '');
+    const path = getPath(url);
 
     chrome.storage.sync.get(STORAGE_KEY).then((data) => {
       const entries: SiteRowsDataEntry[] = data[STORAGE_KEY] ?? [];
-      const shouldClose = entries.some(
-        (entry) => entry.checked && path.startsWith(entry.value)
-      );
-
-      if (shouldClose) {
+      if (isFromEntries(path, entries)) {
         closeCurrentTab();
       }
     });
@@ -25,6 +20,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   return false;
 });
+
+function getPath(url: string) {
+  return url.replace(/^https?\:\/\//, '').replace(/^www\./, '');
+}
+
+function isFromEntries(path: string, entries: SiteRowsDataEntry[]) {
+  return entries.some((entry) => entry.checked && path.startsWith(entry.value));
+}
 
 function closeCurrentTab() {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
