@@ -25,6 +25,17 @@ it('peeks copy of the list', () => {
   expect(list.peek).toEqual(['site']);
 });
 
+it('includes only checked entries with a value', () => {
+  const list = makeBlacklist();
+  list.assign([
+    { checked: true, value: 'site1' },
+    { checked: false, value: 'site2' },
+    { checked: true, value: '' },
+  ]);
+
+  expect(list.peek).toEqual(['site1']);
+});
+
 it('remove protocol and www from url', () => {
   const list = makeBlacklist();
   list.assign([{ checked: true, value: 'youtube.com' }]);
@@ -33,5 +44,3 @@ it('remove protocol and www from url', () => {
   expect(list.isIncluded('https://youtube.com')).toBe(true);
   expect(list.isIncluded('https://www.youtube.com')).toBe(true);
 });
-
-it('includes only checked entries with a value', () => {});
