@@ -1,9 +1,17 @@
 # Chrome open page blocker
 
-Blocks pages from opening if they are on the blacklist.
+Blocks pages from opening if they are on a blacklist. The extension closes blacklisted pages when they are opened or reloaded, but **does not** affect pages that were already open (hi, YouTube music mixes).
 
-## Quick start
+## Development
+
+Build:
 
 ```
-npm run watch
+npm run dev
+```
+
+Tests:
+
+```
+npm run test
 ```

@@ -1,6 +1,5 @@
 import { SiteRowsDataEntry } from '../popup/elements/SiteRows';
 
-// make blacklist constructor
 export function makeBlacklist() {
   let blacklist: string[] = [];
 
