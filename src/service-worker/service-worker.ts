@@ -39,7 +39,7 @@ function makeBlacklist() {
 
   function reassign(entries: SiteRowsDataEntry[] = []) {
     const list = entries
-      .filter((entry) => entry.checked)
+      .filter((entry) => entry.checked && entry.value)
       .map((entry) => entry.value);
 
     blacklist = list;
