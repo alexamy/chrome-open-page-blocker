@@ -55,5 +55,8 @@ function makeBlacklist() {
   return {
     reassign,
     isIncluded,
+    get peek() {
+      return Array.from(blacklist);
+    },
   };
 }
