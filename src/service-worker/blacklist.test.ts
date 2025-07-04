@@ -1,6 +1,11 @@
 import { expect, it } from 'vitest';
+import { makeBlacklist } from './blacklist';
 
-it('makes blacklist', () => {});
+it('makes blacklist', () => {
+  const list = makeBlacklist();
+
+  expect(list.peek).toEqual([]);
+});
 it('reassign list', () => {});
 it('peeks copy of the list', () => {});
 it('reassigns the list', () => {});
