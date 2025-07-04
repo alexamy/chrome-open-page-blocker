@@ -15,10 +15,9 @@ chrome.storage.onChanged.addListener((changes) => {
 });
 
 // watch for tabs
-chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
-  console.log(changeInfo);
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'loading') {
-    const url = changeInfo.url ?? '';
+    const url = changeInfo.url ?? tab.url ?? '';
     const shouldClose = blacklist.isIncluded(url);
 
     if (shouldClose) {
