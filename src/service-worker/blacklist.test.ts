@@ -44,3 +44,10 @@ it('remove protocol and www from url', () => {
   expect(list.isIncluded('https://youtube.com')).toBe(true);
   expect(list.isIncluded('https://www.youtube.com')).toBe(true);
 });
+
+it('checks only host of the url', () => {
+  const list = makeBlacklist();
+  list.assign([{ checked: true, value: 'youtube.com' }]);
+
+  expect(list.isIncluded('http://music.youtube.com')).toBe(false);
+});
