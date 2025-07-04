@@ -9,14 +9,15 @@ start();
 
 async function start() {
   const storage = await chrome.storage.sync.get(STORAGE_KEY);
-  const entries: SiteRowsDataEntry[] = storage[STORAGE_KEY] ?? [];
+  const entries = storage[STORAGE_KEY] ?? [];
   blacklist.reassign(entries);
 }
 
 // update blacklist on storage change
 chrome.storage.onChanged.addListener((changes) => {
   if (changes[STORAGE_KEY]) {
-    blacklist.reassign(changes[STORAGE_KEY].newValue ?? []);
+    const entries = changes[STORAGE_KEY].newValue ?? [];
+    blacklist.reassign(entries);
   }
 });
 
