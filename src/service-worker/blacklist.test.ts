@@ -7,16 +7,16 @@ it('makes blacklist', () => {
   expect(list.peek).toEqual([]);
 });
 
-it('reassign list', () => {
+it('assign list', () => {
   const list = makeBlacklist();
-  list.reassign([{ checked: true, value: 'site' }]);
+  list.assign([{ checked: true, value: 'site' }]);
 
   expect(list.peek).toEqual(['site']);
 });
 
 it('peeks copy of the list', () => {
   const list = makeBlacklist();
-  list.reassign([{ checked: true, value: 'site' }]);
+  list.assign([{ checked: true, value: 'site' }]);
 
   const peek = list.peek;
   expect(list.peek).toEqual(['site']);
@@ -25,6 +25,9 @@ it('peeks copy of the list', () => {
   expect(list.peek).toEqual(['site']);
 });
 
-it('remove protocol and www from url', () => {});
+it('remove protocol and www from url', () => {
+  const list = makeBlacklist();
+  list.assign([{ checked: true, value: 'site' }]);
+});
 
 it('includes only checked entries with a value', () => {});

@@ -4,7 +4,7 @@ import { SiteRowsDataEntry } from '../popup/elements/SiteRows';
 export function makeBlacklist() {
   let blacklist: string[] = [];
 
-  function reassign(entries: SiteRowsDataEntry[] = []) {
+  function assign(entries: SiteRowsDataEntry[] = []) {
     const list = entries
       .filter((entry) => entry.checked && entry.value)
       .map((entry) => entry.value);
@@ -20,7 +20,7 @@ export function makeBlacklist() {
   }
 
   return {
-    reassign,
+    assign,
     isIncluded,
     get peek() {
       return Array.from(blacklist);

@@ -10,14 +10,14 @@ start();
 async function start() {
   const storage = await chrome.storage.sync.get(STORAGE_KEY);
   const entries = storage[STORAGE_KEY];
-  blacklist.reassign(entries);
+  blacklist.assign(entries);
 }
 
 // update blacklist on storage change
 chrome.storage.onChanged.addListener((changes) => {
   if (changes[STORAGE_KEY]) {
     const entries = changes[STORAGE_KEY].newValue;
-    blacklist.reassign(entries);
+    blacklist.assign(entries);
   }
 });
 
