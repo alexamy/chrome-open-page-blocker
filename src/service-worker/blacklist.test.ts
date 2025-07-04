@@ -27,7 +27,11 @@ it('peeks copy of the list', () => {
 
 it('remove protocol and www from url', () => {
   const list = makeBlacklist();
-  list.assign([{ checked: true, value: 'site' }]);
+  list.assign([{ checked: true, value: 'youtube.com' }]);
+
+  expect(list.isIncluded('http://youtube.com')).toBe(true);
+  expect(list.isIncluded('https://youtube.com')).toBe(true);
+  expect(list.isIncluded('https://www.youtube.com')).toBe(true);
 });
 
 it('includes only checked entries with a value', () => {});
