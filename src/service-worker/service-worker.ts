@@ -9,13 +9,15 @@ blacklist.reload();
 
 // update blacklist on storage change
 chrome.storage.onChanged.addListener((changes) => {
-  blacklist.reassign(changes);
+  if (changes[STORAGE_KEY]) {
+    blacklist.reassign(changes[STORAGE_KEY].newValue ?? []);
+  }
 });
 
 // watch for tabs
 chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
   if (changeInfo.status === 'loading') {
-    const shouldClose = blacklist.isIncluded(changeInfo.url || '');
+    const shouldClose = blacklist.isIncluded(changeInfo.url ?? '');
 
     if (shouldClose) {
       chrome.tabs.remove(tabId);
@@ -29,11 +31,11 @@ function makeBlacklist() {
 
   async function reload() {
     const storage = await chrome.storage.sync.get(STORAGE_KEY);
-    reassign(storage);
+    const entries: SiteRowsDataEntry[] = storage[STORAGE_KEY] ?? [];
+    reassign(entries);
   }
 
-  function reassign(storage: { [name: string]: any }) {
-    const entries: SiteRowsDataEntry[] = storage[STORAGE_KEY] ?? [];
+  function reassign(entries: SiteRowsDataEntry[]) {
     const list = entries
       .filter((entry) => entry.checked)
       .map((entry) => entry.value);
