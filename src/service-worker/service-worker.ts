@@ -3,52 +3,27 @@ import { STORAGE_KEY } from '../types';
 
 // TODO: needs testing
 
-// local blocklist
-const block = prepareBlockList();
-
 start();
 
 // setup
 async function start() {
   const storage = await chrome.storage.sync.get(STORAGE_KEY);
   const entries: SiteRowsDataEntry[] = storage[STORAGE_KEY] ?? [];
-  block.reassign(entries);
-}
+  const blacklist = entries
+    .filter((entry) => entry.checked)
+    .map((entry) => entry.value);
 
-// if storage is changed
-chrome.storage.onChanged.addListener((changes, namespace) => {
-  const entries: SiteRowsDataEntry[] = changes[STORAGE_KEY]?.newValue ?? [];
-  block.reassign(entries);
-});
+  chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
+    if (changeInfo.status === 'loading') {
+      const path = (changeInfo.url || '')
+        .replace(/^https?\:\/\//, '')
+        .replace(/^www\./, '');
 
-// page web request
-chrome.webRequest.onBeforeRequest.addListener(
-  (details) => {
-    const url = details.url;
-    const path = url.replace(/^https?\:\/\//, '').replace(/^www\./, '');
-    const result = block.list.has(path) ? { cancel: true } : {};
+      const shouldClose = blacklist.some((entry) => path.startsWith(entry));
 
-    return result;
-  },
-  { urls: ['<all_urls>'] },
-  ['blocking']
-);
-
-function prepareBlockList() {
-  let list = new Set();
-
-  function reassign(entries: SiteRowsDataEntry[]) {
-    const filtered = entries
-      .filter((entry) => entry.checked)
-      .map((entry) => entry.value);
-
-    list = new Set(...filtered);
-  }
-
-  return {
-    reassign,
-    get list() {
-      return list;
-    },
-  };
+      if (shouldClose) {
+        chrome.tabs.remove(tabId);
+      }
+    }
+  });
 }
