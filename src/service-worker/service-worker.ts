@@ -1,42 +1,34 @@
-import { SiteRowsDataEntry } from '../popup/elements/SiteRows';
-import { STORAGE_KEY, type Message } from '../types';
+import { STORAGE_KEY } from '../types';
+import { makeBlacklist } from './blacklist';
 
 // TODO: needs testing
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  request = request as Message;
+// load data on startup
+const blacklist = makeBlacklist();
+start();
 
-  if (request.type === 'current-url') {
-    processUrl(request.url);
+async function start() {
+  const storage = await chrome.storage.sync.get(STORAGE_KEY);
+  const entries = storage[STORAGE_KEY];
+  blacklist.assign(entries);
+}
+
+// update blacklist on storage change
+chrome.storage.onChanged.addListener((changes) => {
+  if (changes[STORAGE_KEY]) {
+    const entries = changes[STORAGE_KEY].newValue;
+    blacklist.assign(entries);
   }
-
-  return false;
 });
 
-async function processUrl(url: string) {
-  const path = url.replace(/^https?\:\/\//, '').replace(/^www\./, '');
+// watch for tabs
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  if (changeInfo.status === 'loading') {
+    const url = changeInfo.url ?? tab.url ?? '';
+    const shouldClose = blacklist.isIncluded(url);
 
-  const storage = await chrome.storage.sync.get(STORAGE_KEY);
-  const entries: SiteRowsDataEntry[] = storage[STORAGE_KEY] ?? [];
-  const shouldClose = entries.some(
-    (entry) => entry.checked && path.startsWith(entry.value)
-  );
-
-  if (shouldClose) {
-    closeCurrentTab();
-  }
-}
-
-function closeCurrentTab() {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    if (tabs.length > 0) {
-      const activeTab = tabs[0];
-
-      if (activeTab.id) {
-        chrome.tabs.remove(activeTab.id);
-      }
-    } else {
-      console.warn('No active tab found.');
+    if (shouldClose) {
+      chrome.tabs.remove(tabId);
     }
-  });
-}
+  }
+});
