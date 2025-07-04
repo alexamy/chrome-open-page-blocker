@@ -34,7 +34,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 });
 
 // make blacklist constructor
-function makeBlacklist() {
+export function makeBlacklist() {
   let blacklist: string[] = [];
 
   function reassign(entries: SiteRowsDataEntry[] = []) {
