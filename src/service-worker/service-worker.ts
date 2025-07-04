@@ -2,10 +2,16 @@ import { SiteRowsDataEntry } from '../popup/elements/SiteRows';
 import { STORAGE_KEY } from '../types';
 
 // TODO: needs testing
-const blacklist = makeBlacklist();
 
 // load data on startup
-blacklist.reload();
+const blacklist = makeBlacklist();
+start();
+
+async function start() {
+  const storage = await chrome.storage.sync.get(STORAGE_KEY);
+  const entries: SiteRowsDataEntry[] = storage[STORAGE_KEY] ?? [];
+  blacklist.reassign(entries);
+}
 
 // update blacklist on storage change
 chrome.storage.onChanged.addListener((changes) => {
@@ -30,12 +36,6 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 function makeBlacklist() {
   let blacklist: string[] = [];
 
-  async function reload() {
-    const storage = await chrome.storage.sync.get(STORAGE_KEY);
-    const entries: SiteRowsDataEntry[] = storage[STORAGE_KEY] ?? [];
-    reassign(entries);
-  }
-
   function reassign(entries: SiteRowsDataEntry[]) {
     const list = entries
       .filter((entry) => entry.checked)
@@ -52,7 +52,6 @@ function makeBlacklist() {
   }
 
   return {
-    reload,
     reassign,
     isIncluded,
   };
