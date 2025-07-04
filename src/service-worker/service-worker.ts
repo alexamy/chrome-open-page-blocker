@@ -45,8 +45,8 @@ function makeBlacklist() {
     blacklist = list;
   }
 
-  function isIncluded(url: string) {
-    const path = (url || '').replace(/^https?\:\/\//, '').replace(/^www\./, '');
+  function isIncluded(url: string = '') {
+    const path = url.replace(/^https?\:\/\//, '').replace(/^www\./, '');
     const isIncluded = blacklist.some((entry) => path.startsWith(entry));
 
     return isIncluded;
