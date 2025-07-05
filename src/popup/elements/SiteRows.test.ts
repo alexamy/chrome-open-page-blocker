@@ -55,6 +55,16 @@ it('adds and focus new row when button is clicked', async () => {
   expect(input.value).toBe('facebook.com');
 });
 
+it('turns on checkbox when adding new rows', async () => {
+  const element = setup();
+
+  await userEvent.click(element.add);
+  await userEvent.keyboard('facebook.com');
+
+  const input = screen.getByShadowRole('checkbox') as HTMLInputElement;
+  expect(input).toBeChecked();
+});
+
 it('removes row', async () => {
   const element = setup(['youtube.com']);
 
