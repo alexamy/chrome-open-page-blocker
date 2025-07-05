@@ -110,7 +110,7 @@ describe('emits data', () => {
       expect.objectContaining({
         detail: [
           { checked: false, value: 'youtube.com' },
-          { checked: false, value: 'pinterest.com' },
+          { checked: true, value: 'pinterest.com' },
         ],
       })
     );
@@ -127,7 +127,7 @@ describe('emits data', () => {
 
     expect(element.onData).toHaveBeenLastCalledWith(
       expect.objectContaining({
-        detail: [{ checked: false, value: 'pinterest.com' }],
+        detail: [{ checked: true, value: 'pinterest.com' }],
       })
     );
   });
