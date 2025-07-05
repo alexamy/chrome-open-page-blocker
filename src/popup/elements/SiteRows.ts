@@ -88,6 +88,7 @@ export class SiteRowsElement extends HTMLElement {
     this.connectRow(row);
     this.appendChild(row);
     this.onChange();
+    row.checked = true;
     row.text?.focus();
   };
 

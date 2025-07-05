@@ -22,13 +22,19 @@ chrome.storage.onChanged.addListener((changes) => {
 });
 
 // watch for tabs
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (changeInfo.status === 'loading') {
     const url = changeInfo.url ?? tab.url ?? '';
     const shouldClose = blacklist.isIncluded(url);
 
     if (shouldClose) {
-      chrome.tabs.remove(tabId);
+      const tabs = await chrome.tabs.query({ currentWindow: true });
+
+      if (tabs.length === 1) {
+        chrome.tabs.update({ url: 'chrome://new-tab-page' });
+      } else {
+        chrome.tabs.remove(tabId);
+      }
     }
   }
 });
